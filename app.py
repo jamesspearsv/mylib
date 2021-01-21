@@ -1,12 +1,13 @@
 import os
 
 
-from flask import Flask, flash, redirect, render_template, request, session, json, jsonify
+from flask import Flask, flash, redirect, render_template, request, session, json, jsonify, url_for
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///catalog.db"
 db = SQLAlchemy(app)
 
