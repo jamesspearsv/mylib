@@ -3,19 +3,12 @@ import os
 
 from flask import Flask, flash, redirect, render_template, request, session, json, jsonify, url_for
 from flask_session import Session
-from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash, generate_password_hash
+from sqlite3 import *
 
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///catalog.db"
-db = SQLAlchemy(app)
-
-class users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    hashword = db.Column(db.String, unique=True, nullable=False)
 
 
 @app.route("/")
