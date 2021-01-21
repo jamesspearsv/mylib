@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* NavBar style */
+nav {
+    min-height: 7vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: transparent;
+    background: linear-gradient(to right top, #646161, #4e4c4c);
+}
+
+.logo {
+    color: #d4d4d4;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 35%;
+}
+.nav-list a {
+    color: #d4d4d4;
+    text-decoration: none;
+    font-weight: bold;
+}
