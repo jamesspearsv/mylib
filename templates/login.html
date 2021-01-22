@@ -5,5 +5,21 @@
 {% endblock %}
 
 {% block main %}
-    <h2>TODO</h2>
+<form class="form" action="/login" method="post">
+    <h2 class="form-title">Login</h2>
+    <div class="form-input">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" name="username" id="username" placeholder="Username">
+    </div>
+    <div class="form-input">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+    </div>
+    <div class="form-item">
+        <p>We will never share your information</p>
+    </div>
+    <div class="form-item">
+     <button class="btn btn-primary" type="submit">Enter</button>
+    </div>
+</form>
 {% endblock %}
