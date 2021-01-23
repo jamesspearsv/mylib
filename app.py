@@ -2,12 +2,46 @@ import os
 from flask import Flask, flash, redirect, render_template, request, session, json, jsonify, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-#connect to sqlite database TODO setup sqlalcemy
+#TODO setup sqlalcemy database and model
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize database
+db = SQLAlchemy(app)
+
+# SQLAlchemy database models
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(200), unique=True, nullable=False)
+    email = db.Column(db.String(200), unique=True, nullable=False)
+    hashword = db.Column(db.String(200), nullable=False)
+
+    # Create function to return stinrg when add new record
+    def __repr__(self):
+        return '<Username %r>' %self.id
+
+class Titles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    def __repr__(self):
+        return '<Title %r>' %self.id
+
+class Authors(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    def __repr__(self):
+        return '<Title %r>' %self.id
+
+class Publishers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    def __repr__(self):
+        return '<Title %r>' %self.id
+
 
 
 @app.route("/")
@@ -18,24 +52,47 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        username = request.form["username"]
-        email = request.form["email"]
-        password = request.form["password"]
+        new_username = request.form["username"]
+        new_email = request.form["email"]
+        new_password = request.form["password"]
 
-        print(username)
-        print(email)
-        print(password)
+        print(new_username)
+        print(new_email)
+        print(new_password)
 
-        # TODO insert info into database with sqlalchemy
+        # Create new_user object
+        new_user = Users(username=new_username, 
+        email=new_email, hashword=generate_password_hash(new_password))
+        
+        # Push to database
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect("/login")
+        except:
+            return "Something's wrong"
 
-        return redirect("/login")
     else: 
         return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+        user = request.form["username"]
+        password = request.form["password"]
 
-        return "TODO"
+
+        rows = Users.query.filter_by(username=user).all()
+        print(rows)
+        if len(rows) != 1:
+            return "Invalid Username"
+        if not check_password_hash(rows[0].hashword, password):
+            return "Invalid password"
+        else:
+            return redirect("/")
+        
+
     else:
+        rows = Users.query.filter_by(username='james').all()
+        print(rows)
         return render_template("login.html")

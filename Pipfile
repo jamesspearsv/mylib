@@ -8,6 +8,7 @@ flask = "*"
 python-dotenv = "*"
 flask-session = "*"
 requests = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 
