@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from helper import login_required
 
+
 app = Flask(__name__)
 
 #setup sqlalcemy database
