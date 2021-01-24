@@ -1,5 +1,8 @@
 # VS Code config files
 /.vscode
 
+# prototype
+/prototypeLayout
+
 # Database files
 *.db
