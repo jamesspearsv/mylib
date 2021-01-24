@@ -68,6 +68,17 @@ def register():
         new_username = request.form["username"]
         new_email = request.form["email"]
         new_password = request.form["password"]
+        password_confirmation = request.form.get("confirmation")
+
+        if not new_username or not new_email or not new_password:
+            flash("Please complete all fields.")
+            return render_template("register.html")
+        if Users.query.filter_by(username=new_username).first():
+            flash("Username unavailable")
+            return render_template("register.html")
+        if password_confirmation != new_password:
+            flash(" Passwords must match")
+            return render_template("register.html")
 
         # Create new_user object
         new_user = Users(username=new_username, 
