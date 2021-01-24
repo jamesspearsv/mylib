@@ -18,6 +18,7 @@
             <div class="logo">
                 <a href="/">MyLib</a>
             </div>
+            {% if not session.user_id %}
             <ul class="nav-links">
                 <li>
                     <a href="/login">Login</a>
@@ -26,8 +27,20 @@
                     <a href="/register">Register</a>
                 </li>
             </ul>
+            {% else %}
+            <ul class="nav-links">
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </nav>
+    {% if get_flashed_messages() %}
+    <div class="alert alert-primary" role="alert">
+        {{ get_flashed_messages() | join(" ") }}
+      </div>
+    {% endif %}
     <main>
         {% block main %}
         {% endblock %}

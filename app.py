@@ -1,16 +1,27 @@
+import os
+from tempfile import mkdtemp
+
 from flask import Flask, flash, redirect, render_template, request, session, json, jsonify, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
+from helper import login_required
+
 app = Flask(__name__)
 
-#TODO setup sqlalcemy database and model
+#setup sqlalcemy database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize database
 db = SQLAlchemy(app)
+
+# Configure flask-session
+app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 
 # SQLAlchemy database models
@@ -45,9 +56,10 @@ class Publishers(db.Model):
 
 
 @app.route("/")
+@login_required
 def index():
-    # TODO create login authentication
-    return render_template("index.html")
+    name = Users.query.filter_by(id=session["user_id"]).first()
+    return render_template("index.html", name=name.username)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -55,10 +67,6 @@ def register():
         new_username = request.form["username"]
         new_email = request.form["email"]
         new_password = request.form["password"]
-
-        print(new_username)
-        print(new_email)
-        print(new_password)
 
         # Create new_user object
         new_user = Users(username=new_username, 
@@ -78,9 +86,12 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+
+        # clear session 
+        session.clear()
+
         user = request.form["username"]
         password = request.form["password"]
-
 
         rows = Users.query.filter_by(username=user).all()
         print(rows)
@@ -90,12 +101,22 @@ def login():
             return "Invalid password"
         else:
             session["user_id"] = rows[0].id
-            print(session["user_id"])
+            print("User {}".format(session["user_id"]))
             return redirect("/")
-        
-
     else:
         return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    # Clear session
+    session.clear()
+
+    return redirect("/")
+
+@app.route("/flash")
+def message():
+    flash('This is a message!')
+    return redirect("/")
 
 # Driver code
 if __name__ == '__main__':
