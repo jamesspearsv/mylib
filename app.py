@@ -2,7 +2,6 @@ from flask import Flask, flash, redirect, render_template, request, session, jso
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from helper import login_required
 
 app = Flask(__name__)
 
@@ -13,7 +12,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize database
 db = SQLAlchemy(app)
 
-session["user_id"] = None
 
 # SQLAlchemy database models
 class Users(db.Model):
@@ -47,7 +45,6 @@ class Publishers(db.Model):
 
 
 @app.route("/")
-@login_required
 def index():
     # TODO create login authentication
     return render_template("index.html")
@@ -92,6 +89,8 @@ def login():
         if not check_password_hash(rows[0].hashword, password):
             return "Invalid password"
         else:
+            session["user_id"] = rows[0].id
+            print(session["user_id"])
             return redirect("/")
         
 
