@@ -65,10 +65,14 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        new_username = request.form["username"]
-        new_email = request.form["email"]
-        new_password = request.form["password"]
+        new_username = request.form.get("username")
+        new_email = request.form.get("email")
+        new_password = request.form.get("password")
         password_confirmation = request.form.get("confirmation")
+
+        print(new_username)
+        print(new_email)
+        print(new_password)
 
         if not new_username or not new_email or not new_password:
             flash("Please complete all fields.")

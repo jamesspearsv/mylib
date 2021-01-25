@@ -1,78 +1,69 @@
+/*  This CSS file contains additions Bootstrap elements */ 
+/*    that are used to adjust item positions and such   */
+ 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-/* layout template styles */
-body {
-    background-color: #f8f8f8;
     font-size: 16px;
-}
-
-nav {
-    background-color: #3B74F7;
-}
-
-.nav-container {
-    width: 80%;
-    min-height: 8vh;
+  }
+  
+  body {
+    background-color: #f8f8f8
+  }
+  
+  /* Logged-In nav */
+  .navbar-nav {
+    margin-right: auto;
+  }
+  
+  .navbar-brand {
+    font-size: 2em;
+  }
+  
+  .navbar-search {
+    margin-left: auto;
+  }
+  .navbar-search button {
+    margin-left: 2%;
+  }
+  
+  
+  /* Logged Out Nav */
+  .lg-nav-items {
+      margin-left: auto;
+  }
+  
+  /* Register and Login forms */
+  .forms {
+    width: 30%;
     margin: auto;
-    display: flex;
-    align-items: center;
-}
-
-    .logo {
-        margin-left: 5%;
-    }
-    .logo a {
-        text-decoration: none;
-        color: #ffffff;
-        font-size: 2em;
-    }
-
-    .nav-links {
-        min-height: 8vh%;
-        margin: auto 5% auto auto;
-        display: flex;
-        width: 25%;
-        list-style: none;    
-    }
-     
-        .nav-links li {
-            margin-left: auto;
-        }
-        .nav-links a {
-            font-size: 16px;
-            color: #ffffff;
-            text-decoration: none;
-        }
-
-/* Main content */
-main {
-    width: 50%;
-    margin: auto;
+    margin-top: 5%;
+    padding: 2%;
+    border: hidden;
+    border-radius: 3%;
+    background-color: #dddddd;
     text-align: center;
-}
-
-/* Forms */ 
-.form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 1%;
-    margin-top: 3%;
-}
-
-    .form-input,
-    .form-item {
-        margin-top: 2%;
-        display: flex;
-        flex-direction: column;
+  }
+  
+  .forms input {
+    margin-top: 2%
+  }
+  
+  .forms h3 {
+    text-align: center;
+  }
+  
+  #form-btn {
+    width: 100%;
+  }
+  
+  @media (max-width: 1024px) {
+    .forms {
+      width: 50%
     }
+  
+  }
+  
+  .copyright {
+    text-align: center;
+    margin-top: 2%;
+  }
 
-    .form-title {
-        font-size: 2em;
-    }

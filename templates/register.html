@@ -5,25 +5,26 @@
 {% endblock %}
 
 {% block main %}
-        <form class="form" action="/register" method="post">
-            <h2 class="form-title">Register</h2>
-            <div class="form-input">
-                <input class="form-control" type="text" name="username" id="username" placeholder="Username">
-            </div>
-            <div class="form-input">
-                <input class="form-control" type="email" name="email" id="email" placeholder="Email">
-            </div>
-            <div class="form-input">
-                <input class="form-control" type="password" name="password" id="password" placeholder="Password">
-            </div>
-            <div class="form-input">
-                <input class="form-control" type="password" name="confirmation" id="confirmation" placeholder="Password (again)">
-            </div>
-            <div class="form-item">
-                <p>We will never share your information</p>
-            </div>
-            <div class="form-item">
-                <button class="btn btn-primary" type="submit">Enter</button>
-            </div>
-        </form>
+<div class="container forms">
+    <form action="/register" method="POST">
+      <h3>Sign-Up</h3>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+        <label for="username">Username</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="email" placeholder="Email" name="email">
+        <label for="email">Email</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="password" placeholder="Password" name="password">
+        <label for="email">Password</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="confirmation" placeholder="Password (again)" name="confirmation">
+        <label for="email">Password (again)</label>
+      </div>
+      <input type="submit" value="Sign-Up" class="btn btn-dark" id="form-btn">
+    </form>
+  </div>
 {% endblock %}
