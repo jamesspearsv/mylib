@@ -1,0 +1,26 @@
+#welcome {
+    margin-top: 2%;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    gap: 20px;
+    margin: 2%;
+}
+
+.dashboard-content {
+    padding: 25%;
+}
+
+#catalog-quickview {
+    background-color: aqua;
+}
+
+#recent-activity {
+    background-color: brown;
+}
+
+#other-content {
+    background-color: crimson;
+}
