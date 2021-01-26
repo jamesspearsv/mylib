@@ -69,11 +69,8 @@ def register():
         new_email = request.form.get("email")
         new_password = request.form.get("password")
         password_confirmation = request.form.get("confirmation")
-
-        print(new_username)
-        print(new_email)
-        print(new_password)
-
+        
+        
         if not new_username or not new_email or not new_password:
             flash("Please complete all fields.")
             return render_template("register.html")
@@ -111,10 +108,9 @@ def login():
 
         rows = Users.query.filter_by(username=user).all()
         print(rows)
-        if len(rows) != 1:
-            return "Invalid Username"
-        if not check_password_hash(rows[0].hashword, password):
-            return "Invalid password"
+        if len(rows) != 1 or not check_password_hash(rows[0].hashword, password):
+            flash("Invalid username or password. Please try again")
+            return redirect("/login")
         else:
             session["user_id"] = rows[0].id
             print("User {}".format(session["user_id"]))
@@ -127,11 +123,6 @@ def logout():
     # Clear session
     session.clear()
 
-    return redirect("/")
-
-@app.route("/flash")
-def message():
-    flash('This is a message!')
     return redirect("/")
 
 # Driver code

@@ -6,16 +6,18 @@
   }
   
   body {
-    background-color: #f8f8f8
+    background-color: #f8f8f8;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .navbar-brand {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 2.5em;
   }
   
   /* Logged-In nav */
   .navbar-nav {
     margin-right: auto;
-  }
-  
-  .navbar-brand {
-    font-size: 2em;
   }
   
   .navbar-search {
@@ -29,6 +31,12 @@
   /* Logged Out Nav */
   .lg-nav-items {
       margin-left: auto;
+  }
+
+  /* Error alert */
+  #error-banner {
+    width: 50%;
+    margin: auto;
   }
   
   /* Register and Login forms */
@@ -67,3 +75,10 @@
     margin-top: 2%;
   }
 
+
+footer {
+  margin-bottom: 0;
+  margin-top: 2%;
+  text-align: center;
+  color: white;
+}

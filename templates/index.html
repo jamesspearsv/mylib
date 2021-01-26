@@ -4,7 +4,21 @@
     Dashboard
 {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="/static/css/dashboard.css">
+{% endblock %}
+
 {% block main %}
-    <h2>TODO: Index</h2>
-    <p>Hello {{ name }}!</p>
+    <h2 id="welcome">Hello {{ name }}</h2>
+    <div class="dashboard-container">
+        <div class="dashboard-content" id="catalog-quickview">
+            <p>catalog</p>
+        </div>
+        <div class="dashboard-content" id="recent-activity">
+            <p>activity</p>
+        </div>
+        <div class="dashboard-content" id="other-content">
+            <p>other</p>
+        </div>
+    </div>
 {% endblock %}
