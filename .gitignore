@@ -3,3 +3,6 @@
 
 # database files
 *.db
+
+# pycache dir
+/__pycache__

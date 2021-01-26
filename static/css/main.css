@@ -1,6 +1,8 @@
 /*  This CSS file contains additions Bootstrap elements */ 
-/*    that are used to adjust item positions and such   */
- 
+/*  that are used to adjust item positions and such.    */
+/*  Elements styled in this file are site global        */
+/*  elements.                                           */ 
+
 * {
     font-size: 16px;
   }
@@ -39,43 +41,9 @@
     margin: auto;
   }
   
-  /* Register and Login forms */
-  .forms {
-    width: 30%;
-    margin: auto;
-    margin-top: 5%;
-    padding: 2%;
-    border: hidden;
-    border-radius: 3%;
-    background-color: #dddddd;
-    text-align: center;
-  }
-  
-  .forms input {
-    margin-top: 2%
-  }
-  
-  .forms h3 {
-    text-align: center;
-  }
-  
-  #form-btn {
-    width: 100%;
-  }
-  
-  @media (max-width: 1024px) {
-    .forms {
-      width: 50%
-    }
-  
-  }
-  
-  .copyright {
-    text-align: center;
-    margin-top: 2%;
-  }
+ 
 
-
+/* Footer when logged in */
 footer {
   margin-bottom: 0;
   margin-top: 2%;

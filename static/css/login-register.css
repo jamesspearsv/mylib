@@ -1,0 +1,55 @@
+ /* Register and Login forms */
+ .forms {
+    width: 30%;
+    margin: auto;
+    margin-top: 5%;
+    padding: 2%;
+    border: hidden;
+    border-radius: 3%;
+    background-color: #dddddd;
+    text-align: center;
+  }
+  
+  .forms input {
+    margin-top: 2%;
+  }
+  
+  .forms h3 {
+    text-align: center;
+    margin-bottom: 5%;
+  }
+  
+  #form-btn {
+    width: 100%;
+  }
+    
+  .copyright {
+    text-align: center;
+    margin-top: 2%;
+  }
+
+
+.password-reqs {
+    margin-top: 2%;
+    padding: 2%;
+
+}
+
+.password-reqs * {
+    margin: 1%;
+    padding: 0;
+}
+
+#req1,
+#req2,
+#req3,
+#req4 {
+    color:#F24336;
+}
+
+/* Mobile screens */ 
+@media (max-width: 1024px) {
+    .forms {
+      width: 50%
+    }
+  }
