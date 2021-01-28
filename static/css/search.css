@@ -33,9 +33,9 @@ h3 {
     background-color: #dbdada;
   }
   
-  .coverImg {
-    max-width: 15vw;
-    min-width: 35%;
+.coverImg {
+  max-width: 30%;
+  min-width: 30%;
 }
 .coverImg img {
   max-width: 100%;
