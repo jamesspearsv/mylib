@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block main %}
-    <H1>Search: {{ query }}</H1>
+    <h3>Search: {{ query }}</h3>
     <div class="search-container">
         <div class="search">
             <div class="search-results">
@@ -20,8 +20,13 @@
               <table class="">
                   <tr data-record-id="{{ volume.volumeId }}">
                     <td class="coverImg">
-                      <img src="{{ volume.cover }}" alt="Cover Image">
-                    </td>
+                      {%  if volume.cover != None %}
+                        <img src="{{ volume.cover }}" alt="Cover Image">
+                      {% else %}
+                          <div class="blank-cover">
+                              <p>{{ volume.title }}</p>
+                          </div>
+                      {% endif %}
                     <td class="quickInfo">
                       <p class="title">{{ volume.title }}</p>
                       {% if volume.authors == None %} 
@@ -29,28 +34,27 @@
                       {% else %}
                         <p class="authors">{{  " ".join(volume.authors) }}</p>
                       {% endif %}
-                      <p class="date">{{ volume.publicationDate }}</p>
                     </td>
                   </tr>
               </table>
               {% endfor %}
             </div>
-            <div class="detailed-view" style="display: none;">
+            <div class="detailed-view">
               <div class="record-cover">
                 <img id="cover" src="" alt="">
               </div>
               <div class="record-details">
-                  <p id='title'>Title:</p>
-                  <p id='authors'>Author(s):</p>
-                  <p id='publisher'>Publisher:</p>
-                  <p id='publicationDate'>Publication Date:</p>
-                  <p id='ISBN'>ISBN:</p>
+                  <p id='title'></p>
+                  <p id='authors'></p>
+                  <p id='publisher'></p>
+                  <p id='publicationDate'></p>
+                  <p id='ISBN'></p>
               </div>
               <div class="record-descripton">
-                <p>Description:</p>
+                <p style="display: none;" id="description-label">Description:</p>
                 <p><i id="description"></i></p>
               </div>
-              <form action="return False" class="add-btn">
+              <form action="return False" id="add-btn" class="add-btn" style="display: none;">
                 <input type="hidden" name="volumeID" value="volumeID">
                 <input type="submit" value="Add to your catalog" class="btn btn-dark">
               </form>

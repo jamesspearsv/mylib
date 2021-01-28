@@ -147,7 +147,7 @@ def logout():
     return redirect("/")
 
 @app.route("/search")
-# @login_required
+@login_required
 def search():
     # Gets input from search box
     search_term = request.args.get("search")

@@ -16,7 +16,7 @@ def lookup(input):
     query = "+".join(temp)
 
     # Search books by title
-    response = get(f"https://www.googleapis.com/books/v1/volumes?q={query}")
+    response = get(f"https://www.googleapis.com/books/v1/volumes?q={query}&printType=books")
     response.raise_for_status()
     data = response.json()
 

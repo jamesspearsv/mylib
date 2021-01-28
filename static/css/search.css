@@ -1,9 +1,10 @@
 /* Search results page */
-.search-bar {
+h3 {
     width: 50%;
     margin: auto;
     padding-top: 2%;
     padding-bottom: 2%;
+    text-align: center;
   }
   
   .search {
@@ -14,7 +15,7 @@
   .search-results {
     max-width: 49%;
     min-width: 49%;
-    height: 80vh;
+    height: 75vh;
     overflow-y: scroll;
     margin: 2% 2% 0% 2%;
   }
@@ -22,29 +23,43 @@
   table {
     width: 100%;
   }
-  tr:nth-child(even) {
+  tr:hover {
     background-color: #dbdada;
   }
   td {
-    padding: 5%;
+    padding: 3%;
   }
   .results-found {
     background-color: #dbdada;
   }
   
-  .coverImg img {
-    max-width: 100%;
-    height: auto;
-  }
+  .coverImg {
+    max-width: 15vw;
+    min-width: 35%;
+}
+.coverImg img {
+  max-width: 100%;
+  height: auto;
+}
+.blank-cover {
+  max-width: 128px;
+  min-height: 190px;
+  background-color: #bbbbbb;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+} .blank-cover p {
+    margin-top: 25%;
+}
   
   /* Detailed view pane */
   .detailed-view {
     width: 49%;
-    height: min-content;
+    height: 75vh;
     background-color: #dddddd;
     border-style: none;
     border-radius: 1.5%;
-    margin: 2% 2% 0% 2%;
+    margin: 2%;
     padding: 2%;
     display: grid;
     grid-template-columns: 30% auto;
@@ -52,6 +67,8 @@
     grid-template-areas: 'record-cover record-details'
                           'record-description record-description'
                           ' add-btn add-btn';
+    gap: 3%;
+    overflow-y: scroll;
   }
   
   .detailed-view * {
@@ -73,4 +90,5 @@
   .add-btn {
     grid-area: add-btn;
     justify-self: center;
+    margin-bottom: 5%;
   }
