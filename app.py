@@ -158,6 +158,11 @@ def search():
     # return serch.html with user search term
     return render_template("search.html", query=search_term, results=results)
 
+@app.route("/edit", methods=["POST"])
+@login_required
+def edit():
+    return "TODO"
+
 @app.route("/test", methods=["POST"])
 def test():
     return "POSTED!"
