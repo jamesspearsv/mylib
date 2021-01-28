@@ -1,0 +1,76 @@
+/* Search results page */
+.search-bar {
+    width: 50%;
+    margin: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+  }
+  
+  .search {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .search-results {
+    max-width: 49%;
+    min-width: 49%;
+    height: 80vh;
+    overflow-y: scroll;
+    margin: 2% 2% 0% 2%;
+  }
+  
+  table {
+    width: 100%;
+  }
+  tr:nth-child(even) {
+    background-color: #dbdada;
+  }
+  td {
+    padding: 5%;
+  }
+  .results-found {
+    background-color: #dbdada;
+  }
+  
+  .coverImg img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Detailed view pane */
+  .detailed-view {
+    width: 49%;
+    height: min-content;
+    background-color: #dddddd;
+    border-style: none;
+    border-radius: 1.5%;
+    margin: 2% 2% 0% 2%;
+    padding: 2%;
+    display: grid;
+    grid-template-columns: 30% auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 'record-cover record-details'
+                          'record-description record-description'
+                          ' add-btn add-btn';
+  }
+  
+  .detailed-view * {
+    margin: 1%;
+  }
+  
+  .record-cover {
+    grid-area: record-cover;
+    justify-self: center;
+  }
+  .record-details {
+    grid-area: record-details;
+  
+  }
+  .record-descripton {
+    grid-area: record-description;
+  
+  }
+  .add-btn {
+    grid-area: add-btn;
+    justify-self: center;
+  }

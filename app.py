@@ -6,7 +6,7 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
-from helper import login_required
+from helper import login_required, lookup
 
 
 app = Flask(__name__)
@@ -147,13 +147,16 @@ def logout():
     return redirect("/")
 
 @app.route("/search")
-@login_required
+# @login_required
 def search():
     # Gets input from search box
-    search = request.args.get("search")
+    search_term = request.args.get("search")
 
+    results = lookup(search_term)
+    for author in results:
+        print(author["authors"])
     # return serch.html with user search term
-    return render_template("search.html", search=request.args.get("search"))
+    return render_template("search.html", query=search_term, results=results)
 
 @app.route("/test", methods=["POST"])
 def test():
