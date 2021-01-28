@@ -22,6 +22,11 @@
   #form-btn {
     width: 100%;
   }
+
+  #register-link {
+    margin-top: 4%;
+    margin-bottom: 0;
+  }
     
   .copyright {
     text-align: center;
