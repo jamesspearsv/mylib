@@ -23,9 +23,10 @@ async function grabVolumeInfo (volumeID) {
             document.getElementById('title').innerHTML = 'Title: ' + volume.volumeInfo.title;
             document.getElementById('authors').innerHTML = 'Author(s): ' + volume.volumeInfo.authors;
             document.getElementById('publisher').innerHTML = 'Publisher: ' + volume.volumeInfo.publisher;
-            document.getElementById('publicationDate').innerHTML = 'Publication Date (YYYY-MM-DD): ' + volume.volumeInfo.publishedDate;
+            document.getElementById('publicationDate').innerHTML = 'Publication Date: ' + volume.volumeInfo.publishedDate;
             document.getElementById('ISBN').innerHTML = 'ISBN: ' + volume.volumeInfo.industryIdentifiers[0].identifier;
             document.getElementById('description').innerHTML = volume.volumeInfo.description;
+            document.getElementById('add-to-catalog').setAttribute('value', volumeID)
           })
       });
     }

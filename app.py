@@ -149,19 +149,19 @@ def logout():
 @app.route("/search")
 @login_required
 def search():
-    # Gets input from search box
+    
+    # Gets input from search box and return serch.html with user search term
     search_term = request.args.get("search")
-
+    if search_term == None:
+        return "Error"
     results = lookup(search_term)
-    for author in results:
-        print(author["authors"])
-    # return serch.html with user search term
     return render_template("search.html", query=search_term, results=results)
 
 @app.route("/edit", methods=["POST"])
 @login_required
 def edit():
-    return "TODO"
+    volumeID = request.form.get("volumeID")
+    return volumeID
 
 @app.route("/test", methods=["POST"])
 def test():

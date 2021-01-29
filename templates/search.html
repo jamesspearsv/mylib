@@ -9,57 +9,63 @@
 {% endblock %}
 
 {% block main %}
-    <h3>Search: {{ query }}</h3>
-    <div class="search-container">
-        <div class="search">
-            <div class="search-results">
-              <div class="results-found">
-                <p>{{ resultsFound }}</p>
-              </div>
-              {% for volume in results %}
-              <table class="">
-                  <tr data-record-id="{{ volume.volumeId }}">
-                    <td class="coverImg">
-                      {%  if volume.cover != None %}
-                        <img src="{{ volume.cover }}" alt="Cover Image">
-                      {% else %}
-                          <div class="blank-cover">
-                              <p>{{ volume.title }}</p>
-                          </div>
-                      {% endif %}
-                    <td class="quickInfo">
-                      <p class="title">{{ volume.title }}</p>
-                      {% if volume.authors == None %} 
-                        <p class="authors">{{ volume.authors }}</p>
-                      {% else %}
-                        <p class="authors">{{  " ".join(volume.authors) }}</p>
-                      {% endif %}
-                    </td>
-                  </tr>
-              </table>
-              {% endfor %}
+    <div class="search-box">
+      <form class="navbar-search d-flex" action="/search" method="get">
+        <input type="search" class="form-control" name="search" placeholder="Search For A Title" value="{{ query }}">
+        <button class="btn btn-dark">Search</button>
+      </form>
+    </div>
+      <div class="search">
+          <div class="search-results">
+            {% for volume in results %}
+            <table class="">
+                <tr data-record-id="{{ volume.volumeId }}">
+                  <td class="coverImg">
+                    {%  if volume.cover != None %}
+                      <img src="{{ volume.cover }}" alt="Cover Image">
+                    {% else %}
+                        <div class="blank-cover">
+                            <p>{{ volume.title }}</p>
+                        </div>
+                    {% endif %}
+                  <td class="quickInfo">
+                    <p class="title">{{ volume.title }}</p>
+                    {% if volume.authors == None %} 
+                      <p class="authors">{{ volume.authors }}</p>
+                    {% else %}
+                      <p class="authors">{{  " ".join(volume.authors) }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+            </table>
+            {% endfor %}
+          </div>
+          <div class="detailed-view">
+            <div class="record-cover">
+              <img id="cover" src="" alt="">
             </div>
-            <div class="detailed-view">
-              <div class="record-cover">
-                <img id="cover" src="" alt="">
-              </div>
-              <div class="record-details">
-                  <p id='title'></p>
-                  <p id='authors'></p>
-                  <p id='publisher'></p>
-                  <p id='publicationDate'></p>
-                  <p id='ISBN'></p>
-              </div>
-              <div class="record-descripton">
-                <p style="display: none;" id="description-label">Description:</p>
-                <p><i id="description"></i></p>
-              </div>
+            <div class="record-details">
+                <p id='title'></p>
+                <p id='authors'></p>
+                <p id='publisher'></p>
+                <p id='publicationDate'></p>
+                <p id='ISBN'></p>
+            </div>
+            <div class="record-descripton">
+              <p style="display: none;" id="description-label">Description:</p>
+              <p><i id="description"></i></p>
+            </div>
+            <div class="form-container">
               <form action="/edit" method="post" id="add-btn" class="add-btn" style="display: none;">
-                <input type="hidden" name="volumeID" value="volumeID">
-                <input type="submit" value="Add to your catalog" class="btn btn-dark">
+                <input id="add-to-catalog" type="hidden" name="volumeID" value="">
+                <input type="submit" value="Add to your catalog" class="btn btn-dark" id="add-btn"">
               </form>
             </div>
           </div>
-    </div>
+        </div>
+        <div class="information-notice">
+          <p>Information provided through the Google Books API.</p>
+          <p>Check it out <a href="https://developers.google.com/books/">here</a>.</p>
+        </div>
     <script src="/static/js/search.js"></script>
 {% endblock %}
