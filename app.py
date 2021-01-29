@@ -113,7 +113,7 @@ def register():
             db.session.commit()
             return redirect("/login")
         except:
-            return "Something's wrong"
+            return "Something's wrong" # TODO Error page
     else: 
         return render_template("register.html")
 
@@ -152,8 +152,8 @@ def search():
     
     # Gets input from search box and return serch.html with user search term
     search_term = request.args.get("search")
-    if search_term == None:
-        return "Error"
+    if search_term == None or search_term == "":
+        return "Error" # TODO create error html page
     results = lookup(search_term)
     return render_template("search.html", query=search_term, results=results)
 
