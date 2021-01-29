@@ -1,59 +1,13 @@
-import os
-from tempfile import mkdtemp
+# Import app and db instances from __init__.py
+from mylib import app
+from mylib import db
 
-from flask import Flask, flash, redirect, render_template, request, session, json, jsonify, url_for
-from flask_session import Session
+# 
+from mylib.models import Users, Titles, Authors, Publishers
+from mylib.helpers import login_required, lookup
+
+from flask import flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_sqlalchemy import SQLAlchemy
-
-from helper import login_required, lookup
-
-
-app = Flask(__name__)
-
-#setup sqlalcemy database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Initialize database
-db = SQLAlchemy(app)
-
-# Configure flask-session
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
-
-
-# SQLAlchemy database models
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(200), unique=True, nullable=False)
-    email = db.Column(db.String(200), unique=True, nullable=False)
-    hashword = db.Column(db.String(200), nullable=False)
-
-    # Create function to return stinrg when add new record
-    def __repr__(self):
-        return '<Username %r>' %self.id
-
-class Titles(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    def __repr__(self):
-        return '<Title %r>' %self.id
-
-class Authors(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    def __repr__(self):
-        return '<Title %r>' %self.id
-
-class Publishers(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    def __repr__(self):
-        return '<Title %r>' %self.id
-
 
 
 @app.route("/")
@@ -108,12 +62,11 @@ def register():
         email=new_email, hashword=generate_password_hash(new_password))
         
         # Push to database
-        try:
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect("/login")
-        except:
-            return "Something's wrong" # TODO Error page
+
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect("/login")
+
     else: 
         return render_template("register.html")
 
@@ -166,7 +119,3 @@ def edit():
 @app.route("/test", methods=["POST"])
 def test():
     return "POSTED!"
-
-# Driver code
-if __name__ == '__main__':
-    app.run(debug=True)

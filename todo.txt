@@ -1,6 +1,0 @@
-myLib - Home library cataloging web utility
---------------------------------------------
-X - create base flask app and index route
-X - create layout.html template
-_ - implement register feature (sqlite3)
-_ - implement login & logout feature
