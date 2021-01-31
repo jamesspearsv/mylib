@@ -4,7 +4,7 @@ from mylib import db
 
 # 
 from mylib.models import Users, Titles, Authors, Publishers
-from mylib.helpers import login_required, lookup
+from mylib.helpers import login_required, lookup, getVolumeInfo
 
 from flask import flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -110,11 +110,17 @@ def search():
     results = lookup(search_term)
     return render_template("search.html", query=search_term, results=results)
 
-@app.route("/edit", methods=["POST"])
+@app.route("/edit", methods=["GET", "POST"])
 @login_required
 def edit():
-    volumeID = request.form.get("volumeID")
-    return volumeID
+    if request.method == "POST":
+        return "TODO"
+    else:
+        volumeID = request.args.get("volumeID")
+
+        volumeInfo = getVolumeInfo(volumeID)
+
+        return render_template("edit.html", volumeInfo=volumeInfo)
 
 @app.route("/test", methods=["POST"])
 def test():

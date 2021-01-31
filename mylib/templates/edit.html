@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Record
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/edit.css">
+{% endblock %}
+
+{% block main %}
+    <div id="content-container">
+        <div id="insturctionMessage">
+            <h3>Edit</h3>
+            <hr>
+            <p>Please verify the information to the right for correctness.</p>
+            <p>Make any changes as necessary or desired.</p>
+            <p>You will not be able to edit this information later.</p>
+        </div>
+       <form action="/edit" method="post" id="volumeInformation">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" class="form-control" value="{{ volumeInfo.title }}">
+            </div>
+            <div class="form-group">
+                <label for="subtitle">Subtitle</label>
+                <input type="text" name="subtitle" id="subtitle" class="form-control" value="{{ volumeInfo.subtitle }}">
+            </div>
+            {% for author in volumeInfo.authors %}
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" name="author" id="author" class="form-control" value="{{ author }}">
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                <label for="publisher">Publisher</label>
+                <input type="text" name="publisher" id="publisher" class="form-control" value="{{ volumeInfo.publisher }}">
+            </div>
+            <div class="form-group">
+                <label for="publishedDate">Publication date</label>
+                <input type="text" name="publishedDate" id="publishedDate" class="form-control" value="{{ volumeInfo.publishedDate }}">
+            </div>
+            <div class="form-group">
+                <label for="pageCount">Page count</label>
+                <input type="text" name="pageCount" id="pageCount" class="form-control" value="{{ volumeInfo.pageCount }}">
+            <div class="form-group selection">
+                <label for="format">Format</label>
+                <select name="format" id="format">
+                    <option value="hardback">Hardback</option>
+                    <option value="paperback">Paperback</option>
+                    <option value="ebook">E-Book</option>
+                    <option value="audiobook">Audiobook</option>
+                    <option value="graphic novel">Graphic Novel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="volumeID" value="{{ volumeInfo.googleBooksID }}">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="cover" value="{{ volumeInfo.cover }}">
+            </div>
+            <div class="form-group" id="add-to-catalog">
+                <input type="submit" value="Add to your catalog" class="btn btn-dark" id="add-to-catalog">
+            </div>
+       </form>
+    </div>
+{% endblock %}

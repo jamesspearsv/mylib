@@ -1,0 +1,36 @@
+#content-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#insturctionMessage {
+    width: 38%;
+    margin: 2% 2% 0 0;
+}
+
+#volumeInformation {
+    width: 58%;
+    background-color: #dddddd;
+    padding: 2%;
+    padding-top: 1%;
+    margin: 2% 0 2% 0;
+    border: hidden;
+    border-radius: 3%;
+}
+
+#volumeInformation div {
+    margin-top: 1%;
+}
+
+#volumeInformation label {
+    font-weight: 700;
+}
+
+.selection {
+    display: flex;
+    flex-direction: column;
+}
+
+#add-to-catalog {
+    margin-top: 2%;
+}

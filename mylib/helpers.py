@@ -1,6 +1,6 @@
 from functools import wraps
 from requests import get
-from flask import g, request, redirect, session
+from flask import request, redirect, session
 
 def login_required(f):
     @wraps(f)
@@ -27,7 +27,7 @@ def lookup(input):
             "volumeId": None,
             "cover": None,
             "title": None,
-            "authors": ["None",],
+            "authors": None,
             "publishedDate": None
         }
         # Test if key exist in JSON record for current volume
@@ -44,3 +44,40 @@ def lookup(input):
         # Append current volume record to results list
         results.append(volume)
     return results
+
+def getVolumeInfo(volumeID):
+    data = get(f"https://www.googleapis.com/books/v1/volumes/{volumeID}")
+    data.raise_for_status()
+    response = data.json()
+
+    # Dictionary to store volume information
+    volume = {
+        "googleBooksID": volumeID,
+        "title": None,
+        "subtitle": None,
+        "cover": None,
+        "authors": None,
+        "publisher": None,
+        "publishedDate": None,
+        "pageCount": None
+    }
+
+    # Checks for keys in response data
+    if "title" in response["volumeInfo"]:
+        volume.update({"title": response["volumeInfo"]["title"]})
+    if "subtitle" in response["volumeInfo"]:
+        volume.update({"subtitle": response["volumeInfo"]["subtitle"]})
+    if "smallThumbnail" in response["volumeInfo"]["imageLinks"]:
+        volume.update({"cover": response["volumeInfo"]["imageLinks"]["smallThumbnail"]})
+    if "authors" in response["volumeInfo"]:
+        volume.update({"authors": response["volumeInfo"]["authors"]})
+    if "publisher" in response["volumeInfo"]:
+        volume.update({"publisher": response["volumeInfo"]["publisher"]})
+    if "publishedDate" in response["volumeInfo"]:
+        volume.update({"publishedDate": response["volumeInfo"]["publishedDate"]})
+    if "pageCount" in response["volumeInfo"]:
+        volume.update({"pageCount": response["volumeInfo"]["pageCount"]})
+
+    # Return volume info
+    return volume
+

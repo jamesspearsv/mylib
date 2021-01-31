@@ -33,7 +33,7 @@
                     {% if volume.authors == None %} 
                       <p class="authors">{{ volume.authors }}</p>
                     {% else %}
-                      <p class="authors">{{  " ".join(volume.authors) }}</p>
+                      <p class="authors">{{  ", ".join(volume.authors) }}</p>
                     {% endif %}
                   </td>
                 </tr>
@@ -46,6 +46,7 @@
             </div>
             <div class="record-details">
                 <p id='title'></p>
+                <p id="subtitle"></p>
                 <p id='authors'></p>
                 <p id='publisher'></p>
                 <p id='publicationDate'></p>
@@ -56,9 +57,9 @@
               <p><i id="description"></i></p>
             </div>
             <div class="form-container">
-              <form action="/edit" method="post" id="add-btn" class="add-btn" style="display: none;">
+              <form action="/edit" method="get" id="add-btn" class="add-btn" style="display: none;">
                 <input id="add-to-catalog" type="hidden" name="volumeID" value="">
-                <input type="submit" value="Add to your catalog" class="btn btn-dark" id="add-btn"">
+                <input type="submit" value="Create catalog record" class="btn btn-dark" id="add-btn"">
               </form>
             </div>
           </div>
