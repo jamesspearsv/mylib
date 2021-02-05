@@ -114,6 +114,24 @@ def search():
 @login_required
 def edit():
     if request.method == "POST":
+        # Grab volume information from posted form
+        # TODO if author0, title empty then return error
+        # TODO grab other fields from form
+        authors = []
+        for i in range(10):
+            # Checks it author field exists
+            if not request.form.get(f"{i}"):
+                break
+            # appends author name to authors list
+            authors.append(request.form.get(f"{i}"))
+
+        # TODO check if publisher or authors are already in DB.
+            # if yes then get authorId and publisherId
+            # else add publisher and author to DB
+        # TODO Add title to DB
+        # TODO add title to user's catalog.
+        
+        print(authors)
         return "TODO"
     else:
         volumeID = request.args.get("volumeID")

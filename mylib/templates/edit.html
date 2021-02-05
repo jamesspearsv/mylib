@@ -26,10 +26,10 @@
                 <label for="subtitle">Subtitle</label>
                 <input type="text" name="subtitle" id="subtitle" class="form-control" value="{{ volumeInfo.subtitle }}">
             </div>
-            {% for author in volumeInfo.authors %}
+            {% for i in range(volumeInfo.authors | length) %}
             <div class="form-group">
                 <label for="author">Author</label>
-                <input type="text" name="author" id="author" class="form-control" value="{{ author }}">
+                <input type="text" name="{{ i }}" id="author" class="form-control" value="{{ volumeInfo.authors[i] }}">
             </div>
             {% endfor %}
             <div class="form-group">
