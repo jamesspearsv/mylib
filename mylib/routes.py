@@ -115,10 +115,24 @@ def search():
 def edit():
     if request.method == "POST":
         # Grab volume information from posted form
-        # TODO if author0, title empty then return error
-        # TODO grab other fields from form
+        # if  primary author, title empty then return error
+        if not request.form.get("0") or not request.form.get("title"):
+            flash("Cannot add book without author or title. Please try again.")
+            return redirect("/")
+
+        # Grab volume info fields from form
+        title = request.form.get("title")
+        subtitle = request.form.get("subtitle")
+        publisher = request.form.get("publisher")
+        publishedDate = request.form.get("publishedDate")
+        pageCount = request.form.get("pageCount")
+        ISBN = request.form.get("ISBN")
+        format = request.form.get("format")
+        volumeID = request.form.get("volumeID")
+        cover = request.form.get("cover")
+        # Get author(s) from form
         authors = []
-        for i in range(10):
+        for i in range(5):
             # Checks it author field exists
             if not request.form.get(f"{i}"):
                 break
@@ -130,8 +144,7 @@ def edit():
             # else add publisher and author to DB
         # TODO Add title to DB
         # TODO add title to user's catalog.
-        
-        print(authors)
+    
         return "TODO"
     else:
         volumeID = request.args.get("volumeID")

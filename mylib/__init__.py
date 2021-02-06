@@ -29,3 +29,9 @@ Session(app)
 
 # Import app routes after creating app
 from mylib import routes
+
+# Create DB is it doesn't already exist
+try:
+    db.create_all()
+except:
+    pass

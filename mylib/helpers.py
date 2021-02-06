@@ -59,6 +59,7 @@ def getVolumeInfo(volumeID):
         "authors": None,
         "publisher": None,
         "publishedDate": None,
+        "ISBN": None,
         "pageCount": None
     }
 
@@ -75,6 +76,8 @@ def getVolumeInfo(volumeID):
         volume.update({"publisher": response["volumeInfo"]["publisher"]})
     if "publishedDate" in response["volumeInfo"]:
         volume.update({"publishedDate": response["volumeInfo"]["publishedDate"]})
+    if "industryIdentifiers" in response["volumeInfo"]:
+        volume.update({"ISBN": response["volumeInfo"]["industryIdentifiers"][0]["identifier"]})
     if "pageCount" in response["volumeInfo"]:
         volume.update({"pageCount": response["volumeInfo"]["pageCount"]})
 
