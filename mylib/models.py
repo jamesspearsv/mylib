@@ -16,17 +16,6 @@ class Users(db.Model):
     def __repr__(self):
         return '<Username %r>' %self.id
 
-class Catalogs(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    format = db.Column(db.String(50), nullable=False)
-
-    # Foreign keys
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    titleId = db.Column(db.Integer, db.ForeignKey('titles.id'), nullable=False)
-
-    def __repr__(self):
-        return '<Catalog: Title %r, User %r>' %self.titleId %self.userId
-
 class Titles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False, unique=True)
@@ -39,7 +28,7 @@ class Titles(db.Model):
 
     # Foreign Keys
     authorId = db.Column(db.Integer, db.ForeignKey('authors.id'), nullable=False)
-    publisherId = db.Column(db.Integer, db.ForeignKey('publishers.id'))
+    publisherId = db.Column(db.Integer, db.ForeignKey('publishers.id'), nullable=False)
 
     # Relationship to catalogs table
     catalog = db.relationship('Catalogs', backref='title', lazy=True)
@@ -66,3 +55,14 @@ class Publishers(db.Model):
 
     def __repr__(self):
         return '<Title %r>' %self.id 
+
+class Catalogs(db.Model):
+    format = db.Column(db.String(50), nullable=False)
+
+    # Foreign keys and Primary Composite key
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    titleId = db.Column(db.Integer, db.ForeignKey('titles.id'), primary_key=True)
+
+
+    def __repr__(self):
+        return '<Catalog: Title %r, User %r>' %self.titleId %self.userId

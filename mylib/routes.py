@@ -5,7 +5,7 @@ from mylib import app
 from mylib import db
 
 # Import Dtatbase models and helper functions
-from mylib.models import Users, Titles, Authors, Publishers
+from mylib.models import Users, Titles, Authors, Publishers, Catalogs
 from mylib.helpers import login_required, googleBooksSearch, googleBooksRetreive
 
 # Import flask functions and security functions
@@ -65,9 +65,12 @@ def register():
         email=new_email, hashword=generate_password_hash(new_password))
         
         # Push to database
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+        except:
+            return "Error"
 
-        db.session.add(new_user)
-        db.session.commit()
         return redirect("/login")
 
     else: 
@@ -85,7 +88,7 @@ def login():
         password = request.form["password"]
 
         row = Users.query.filter_by(username=user).first()
-        if row == None or not check_password_hash(row.hashword, password):
+        if not row or not check_password_hash(row.hashword, password):
             flash("Invalid username or password. Please try again")
             return redirect("/login")
         else:
@@ -137,18 +140,49 @@ def edit():
         "googleBooksId": request.form.get("googleBooksId")
         }
 
-        # Get publisher and author IDs
-        author = Authors.query.filter_by(authorName=catalogRecord["authhor"]).first()
-        publisher = Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first()
-        if author != 1:
-            # TODO add author to database
-            # record authorId
-        if publisher != 1:
-            # TODO add publisher to databse
-            # record publisherId
+        # check that author and publisher are in database
+        if not Authors.query.filter_by(authorName=catalogRecord["author"]).first():
+            # TODO add author to Authors table
+            new_author = Authors(authorName=catalogRecord["author"])
+            try:
+                db.session.add(new_author)
+                db.session.commit()
+            except:
+                return "Error: Author"
+            
+        if not Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first():
+            # TODO add publisher to Publisher table
+            new_publisher = Publishers(publisherName=catalogRecord["publisher"])
+            try:
+                db.session.add(new_publisher)
+                db.session.commit()
+            except:
+                return "Error: Publisher"
+
+        # TODO Add title to Titles table
+        # Check if title is Titles table already
+        if not Titles.query.filter_by(title=catalogRecord["title"]).first():
+            # get author and publisher IDs
+            author = Authors.query.filter_by(authorName=catalogRecord["author"]).first()
+            publisher = Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first()
+
+            new_title = Titles(title=catalogRecord["title"], subtitle=catalogRecord["subtitle"],
+            ISBN=catalogRecord["ISBN"], publicationDate=catalogRecord["publishedDate"], cover=catalogRecord["cover"],
+            pagination=catalogRecord["pageCount"], googleBooksId=catalogRecord["googleBooksId"], authorId=author.id, publisherId=publisher.id)
+
+            try:
+                db.session.add(new_title)
+                db.session.commit()
+            except:
+                return "Error: Title"
         
-        # TODO Add title to DB
         # TODO add title to user's catalog.
+        new_record = Catalogs(format=catalogRecord["format"], userId=session["user_id"], 
+        titleId=Titles.query.filter_by(title=catalogRecord["title"]).first())
+
+
+        db.session.add(new_record)
+        db.session.commit()
     
         return catalogRecord
     else:
