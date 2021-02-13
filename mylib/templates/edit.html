@@ -26,12 +26,10 @@
                 <label for="subtitle">Subtitle</label>
                 <input type="text" name="subtitle" id="subtitle" class="form-control" value="{{ volumeInfo.subtitle }}">
             </div>
-            {% for i in range(volumeInfo.authors | length) %}
             <div class="form-group">
-                <label for="author">Author</label>
-                <input type="text" name="{{ i }}" id="author" class="form-control" value="{{ volumeInfo.authors[i] }}">
+                <label for="author">Primary Author</label>
+                <input type="text" name="author" id="author" class="form-control" value="{{ volumeInfo.authors[0] }}">
             </div>
-            {% endfor %}
             <div class="form-group">
                 <label for="publisher">Publisher</label>
                 <input type="text" name="publisher" id="publisher" class="form-control" value="{{ volumeInfo.publisher }}">
@@ -59,7 +57,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <input type="hidden" name="volumeID" value="{{ volumeInfo.googleBooksID }}">
+                <input type="hidden" name="googleBooksId" value="{{ volumeInfo.googleBooksID }}">
             </div>
             <div class="form-group">
                 <input type="hidden" name="cover" value="{{ volumeInfo.cover }}">

@@ -18,6 +18,7 @@ class Users(db.Model):
 
 class Catalogs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    format = db.Column(db.String(50), nullable=False)
 
     # Foreign keys
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -34,11 +35,10 @@ class Titles(db.Model):
     publicationDate = db.Column(db.String(15))
     cover = db.Column(db.String(200), unique=True)
     pagination = db.Column(db.Integer)
-    googleBooksID = db.Column(db.String(100), unique=True, nullable=False)
+    googleBooksId = db.Column(db.String(100), unique=True, nullable=False)
 
     # Foreign Keys
-    primaryAuthorId = db.Column(db.Integer, db.ForeignKey('authors.id'), nullable=False)
-    secondaryAuthorId = db.Column(db.Integer, db.ForeignKey('authors.id'))
+    authorId = db.Column(db.Integer, db.ForeignKey('authors.id'), nullable=False)
     publisherId = db.Column(db.Integer, db.ForeignKey('publishers.id'))
 
     # Relationship to catalogs table
@@ -52,7 +52,7 @@ class Authors(db.Model):
     authorName = db.Column(db.String(200), nullable=False, unique=True)
 
     # Relationship to titles table
-    titlesAuthored = db.relationship('Titles', backref='author', foreign_keys=[Titles.primaryAuthorId], lazy=True)
+    titlesAuthored = db.relationship('Titles', backref='author', lazy=True)
 
     def __repr__(self):
         return '<Title %r>' %self.id

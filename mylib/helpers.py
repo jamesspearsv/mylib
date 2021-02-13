@@ -10,7 +10,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def lookup(input):
+def googleBooksSearch(input):
     # parse input into searchale string
     temp = input.split()
     query = "+".join(temp)
@@ -45,7 +45,7 @@ def lookup(input):
         results.append(volume)
     return results
 
-def getVolumeInfo(volumeID):
+def googleBooksRetreive(volumeID):
     data = get(f"https://www.googleapis.com/books/v1/volumes/{volumeID}")
     data.raise_for_status()
     response = data.json()

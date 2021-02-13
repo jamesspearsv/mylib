@@ -11,7 +11,7 @@
 {% block main %}
     <div class="search-box">
       <form class="navbar-search d-flex" action="/search" method="get">
-        <input type="search" class="form-control" name="search" placeholder="Search For A Title" value="{{ query }}">
+        <input type="search" class="form-control" name="search" placeholder="Search For A Title" value="{{ query }}" autocomplete="off">
         <button class="btn btn-dark">Search</button>
       </form>
     </div>

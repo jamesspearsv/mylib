@@ -1,11 +1,14 @@
+# Link to volume on Google Books https://www.google.com/books/edition/_/{googleBooksId}?hl=en
+
 # Import app and db instances from __init__.py
 from mylib import app
 from mylib import db
 
-# 
+# Import Dtatbase models and helper functions
 from mylib.models import Users, Titles, Authors, Publishers
-from mylib.helpers import login_required, lookup, getVolumeInfo
+from mylib.helpers import login_required, googleBooksSearch, googleBooksRetreive
 
+# Import flask functions and security functions
 from flask import flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -107,7 +110,7 @@ def search():
     search_term = request.args.get("search")
     if search_term == None or search_term == "":
         return "Error" # TODO create error html page
-    results = lookup(search_term)
+    results = googleBooksSearch(search_term)
     return render_template("search.html", query=search_term, results=results)
 
 @app.route("/edit", methods=["GET", "POST"])
@@ -116,40 +119,42 @@ def edit():
     if request.method == "POST":
         # Grab volume information from posted form
         # if  primary author, title empty then return error
-        if not request.form.get("0") or not request.form.get("title"):
+        if not request.form.get("author") or not request.form.get("title"):
             flash("Cannot add book without author or title. Please try again.")
             return redirect("/")
 
         # Grab volume info fields from form
-        title = request.form.get("title")
-        subtitle = request.form.get("subtitle")
-        publisher = request.form.get("publisher")
-        publishedDate = request.form.get("publishedDate")
-        pageCount = request.form.get("pageCount")
-        ISBN = request.form.get("ISBN")
-        format = request.form.get("format")
-        volumeID = request.form.get("volumeID")
-        cover = request.form.get("cover")
-        # Get author(s) from form
-        authors = []
-        for i in range(5):
-            # Checks it author field exists
-            if not request.form.get(f"{i}"):
-                break
-            # appends author name to authors list
-            authors.append(request.form.get(f"{i}"))
+        catalogRecord = {
+        "title": request.form.get("title"),
+        "subtitle": request.form.get("subtitle"),
+        "author": request.form.get("author"),
+        "publisher": request.form.get("publisher"),
+        "publishedDate": request.form.get("publishedDate"),
+        "pageCount": request.form.get("pageCount"),
+        "ISBN": request.form.get("ISBN"),
+        "format": request.form.get("format"),
+        "cover": request.form.get("cover"),
+        "googleBooksId": request.form.get("googleBooksId")
+        }
 
-        # TODO check if publisher or authors are already in DB.
-            # if yes then get authorId and publisherId
-            # else add publisher and author to DB
+        # Get publisher and author IDs
+        author = Authors.query.filter_by(authorName=catalogRecord["authhor"]).first()
+        publisher = Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first()
+        if author != 1:
+            # TODO add author to database
+            # record authorId
+        if publisher != 1:
+            # TODO add publisher to databse
+            # record publisherId
+        
         # TODO Add title to DB
         # TODO add title to user's catalog.
     
-        return "TODO"
+        return catalogRecord
     else:
         volumeID = request.args.get("volumeID")
 
-        volumeInfo = getVolumeInfo(volumeID)
+        volumeInfo = googleBooksRetreive(volumeID)
 
         return render_template("edit.html", volumeInfo=volumeInfo)
 
