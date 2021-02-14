@@ -93,7 +93,6 @@ def login():
             return redirect("/login")
         else:
             session["user_id"] = row.id
-            print("User {}".format(session["user_id"]))
             return redirect("/")
     else:
         return render_template("login.html")
@@ -116,54 +115,41 @@ def search():
     results = googleBooksSearch(search_term)
     return render_template("search.html", query=search_term, results=results)
 
-@app.route("/edit", methods=["GET", "POST"])
+@app.route("/add", methods=["POST"])
 @login_required
-def edit():
+def add():
     if request.method == "POST":
-        # Grab volume information from posted form
-        # if  primary author, title empty then return error
-        if not request.form.get("author") or not request.form.get("title"):
-            flash("Cannot add book without author or title. Please try again.")
-            return redirect("/")
 
-        # Grab volume info fields from form
-        catalogRecord = {
-        "title": request.form.get("title"),
-        "subtitle": request.form.get("subtitle"),
-        "author": request.form.get("author"),
-        "publisher": request.form.get("publisher"),
-        "publishedDate": request.form.get("publishedDate"),
-        "pageCount": request.form.get("pageCount"),
-        "ISBN": request.form.get("ISBN"),
-        "format": request.form.get("format"),
-        "cover": request.form.get("cover"),
-        "googleBooksId": request.form.get("googleBooksId")
-        }
+        # Grab volume info from Google Books
+        catalogRecord = googleBooksRetreive(request.form.get("volumeId"))
 
-        # check that author and publisher are in database
-        if not Authors.query.filter_by(authorName=catalogRecord["author"]).first():
+
+        # Check if author is in Authors table
+        if not Authors.query.filter_by(authorName=catalogRecord["authors"][0]).first():
             # TODO add author to Authors table
-            new_author = Authors(authorName=catalogRecord["author"])
+            new_author = Authors(authorName=catalogRecord["authors"][0])
+
             try:
                 db.session.add(new_author)
                 db.session.commit()
             except:
                 return "Error: Author"
-            
+
+        # Check is publisher is in Publishers table
         if not Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first():
             # TODO add publisher to Publisher table
             new_publisher = Publishers(publisherName=catalogRecord["publisher"])
+
             try:
                 db.session.add(new_publisher)
                 db.session.commit()
             except:
                 return "Error: Publisher"
 
-        # TODO Add title to Titles table
         # Check if title is Titles table already
         if not Titles.query.filter_by(title=catalogRecord["title"]).first():
             # get author and publisher IDs
-            author = Authors.query.filter_by(authorName=catalogRecord["author"]).first()
+            author = Authors.query.filter_by(authorName=catalogRecord["authors"][0]).first()
             publisher = Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first()
 
             new_title = Titles(title=catalogRecord["title"], subtitle=catalogRecord["subtitle"],
@@ -175,16 +161,23 @@ def edit():
                 db.session.commit()
             except:
                 return "Error: Title"
+
+        if not Catalogs.query.filter_by(userId=session["user_id"], titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
+            new_record = Catalogs(format=request.form.get("format"), userId=session["user_id"], 
+            titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id)
+
+            try:
+                db.session.add(new_record)
+                db.session.commit()
+                flash(f"Success! Added to your catalog!")
+                return redirect("/")
+            except:
+                return "Error: Catalog"
         
-        # TODO add title to user's catalog.
-        new_record = Catalogs(format=catalogRecord["format"], userId=session["user_id"], 
-        titleId=Titles.query.filter_by(title=catalogRecord["title"]).first())
-
-
-        db.session.add(new_record)
-        db.session.commit()
+        else: 
+            flash(f"Looks like that one's already in your catalog.")
+            return redirect("/")
     
-        return catalogRecord
     else:
         volumeID = request.args.get("volumeID")
 

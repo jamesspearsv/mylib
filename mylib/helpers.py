@@ -52,7 +52,7 @@ def googleBooksRetreive(volumeID):
 
     # Dictionary to store volume information
     volume = {
-        "googleBooksID": volumeID,
+        "googleBooksId": volumeID,
         "title": None,
         "subtitle": None,
         "cover": None,

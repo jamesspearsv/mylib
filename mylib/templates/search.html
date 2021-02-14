@@ -40,7 +40,11 @@
             </table>
             {% endfor %}
           </div>
+
           <div class="detailed-view">
+            <div id="tip">
+              <p id="tip-message"><b>TIP: </b>Click on a book to see more about it</p>
+            </div>
             <div class="record-cover">
               <img id="cover" src="" alt="">
             </div>
@@ -52,14 +56,29 @@
                 <p id='publicationDate'></p>
                 <p id='ISBN'></p>
             </div>
-            <div class="record-descripton">
-              <p style="display: none;" id="description-label">Description:</p>
-              <p><i id="description"></i></p>
-            </div>
+            <!-- 
+              <div class="record-descripton">
+                <p style="display: none;" id="description-label">Description:</p>
+                <p><i id="description"></i></p>
+              </div>
+            -->
             <div class="form-container">
-              <form action="/edit" method="get" id="add-btn" class="add-btn" style="display: none;">
-                <input id="add-to-catalog" type="hidden" name="volumeID" value="">
-                <input type="submit" value="Create catalog record" class="btn btn-dark" id="add-btn"">
+              <form action="/add" method="post" id="add-btn" class="add-btn" style="display: none;">
+                <div class="form-group">
+                  <input id="add-to-catalog" type="hidden" name="volumeId" value="">
+                </div>
+                <div class="form-group selection">
+                  <select name="format" id="format">
+                      <option value="hardback" selected>Hardback</option>
+                      <option value="paperback">Paperback</option>
+                      <option value="ebook">E-Book</option>
+                      <option value="audiobook">Audiobook</option>
+                      <option value="graphic novel">Graphic Novel</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Add To Your Catalog" class="btn btn-dark" id="add-btn"">
+                </div>
               </form>
             </div>
           </div>
