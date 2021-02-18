@@ -9,12 +9,6 @@ class Users(db.Model):
     email = db.Column(db.String(200), unique=True, nullable=False)
     hashword = db.Column(db.String(200), nullable=False)
 
-    # Relationship to Catalogs table
-    catalog = db.relationship('Catalogs', backref='user', lazy=True)
-
-    # Create function to return stinrg when add new record
-    def __repr__(self):
-        return '<Username %r>' %self.id
 
 class Titles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,31 +24,16 @@ class Titles(db.Model):
     authorId = db.Column(db.Integer, db.ForeignKey('authors.id'), nullable=False)
     publisherId = db.Column(db.Integer, db.ForeignKey('publishers.id'), nullable=False)
 
-    # Relationship to catalogs table
-    catalog = db.relationship('Catalogs', backref='title', lazy=True)
-
-    def __repr__(self):
-        return '<Title %r>' %self.id
 
 class Authors(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     authorName = db.Column(db.String(200), nullable=False, unique=True)
 
-    # Relationship to titles table
-    titlesAuthored = db.relationship('Titles', backref='author', lazy=True)
-
-    def __repr__(self):
-        return '<Title %r>' %self.id
 
 class Publishers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     publisherName = db.Column(db.String(200), nullable=False, unique=True)
 
-    # Relationship to titles table
-    titlesPublished = db.relationship('Titles', backref="publisher", lazy=True)
-
-    def __repr__(self):
-        return '<Title %r>' %self.id 
 
 class Catalogs(db.Model):
     format = db.Column(db.String(50), nullable=False)
@@ -62,7 +41,3 @@ class Catalogs(db.Model):
     # Foreign keys and Primary Composite key
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     titleId = db.Column(db.Integer, db.ForeignKey('titles.id'), primary_key=True)
-
-
-    def __repr__(self):
-        return '<Catalog: Title %r, User %r>' %self.titleId %self.userId

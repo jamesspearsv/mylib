@@ -188,10 +188,25 @@ def add():
 @app.route("/catalog", methods=["GET"])
 @login_required
 def catalog():
-    # This gets all catalog records from Catalogs table
-    user_catlog = Catalogs.query.filter_by(userId=session["user_id"]).all()
-    for item in user_catlog:
-        print(item.titleId)
+    # Join Titles, Authors, Publishers, and Catalogs tables
+    #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
+    
+    #for title, author, publisher in catalog:
+    #    print(title.title, author.authorName, publisher.publisherName)
+
+    # Retreives catalog info from database
+    catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
+            Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName)
+            .join(Authors, Publishers, Catalogs)
+            .filter(Catalogs.userId==session["user_id"])).all()
+    
+    i = 0
+    for item in catalog:
+        print(f"{i}: {item}")
+        print()
+        i += 1
+    
+
     return "TODO"
 
 @app.route("/test", methods=["POST"])
