@@ -185,6 +185,15 @@ def add():
 
         return render_template("edit.html", volumeInfo=volumeInfo)
 
+@app.route("/catalog", methods=["GET"])
+@login_required
+def catalog():
+    # This gets all catalog records from Catalogs table
+    user_catlog = Catalogs.query.filter_by(userId=session["user_id"]).all()
+    for item in user_catlog:
+        print(item.titleId)
+    return "TODO"
+
 @app.route("/test", methods=["POST"])
 def test():
     return "POSTED!"

@@ -23,7 +23,7 @@
             <!-- Logged in NavBar -->
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <div class="navbar-nav">
-                  <a href="#" class="nav-link">Catalog</a>
+                  <a href="/catalog" class="nav-link">Catalog</a>
                   <a href="#" class="nav-link">Account</a>
                   <a href="/logout" class="nav-link">Logout</a>
                 </div>
@@ -46,7 +46,7 @@
 
 
     {% if get_flashed_messages() %}
-    <div class="alert alert-danger" id="error-banner" role="alert" style="text-align: center;">
+    <div class="alert alert-dark" id="error-banner" role="alert" style="text-align: center;">
         {{ get_flashed_messages() | join(" ") }}
       </div>
     {% endif %}

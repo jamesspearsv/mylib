@@ -10,7 +10,7 @@
 
 {% block main %}
     <div class="search-box">
-      <form class="navbar-search d-flex" action="/search" method="get">
+      <form class="navbar-search d-flex" id="search-box-2"action="/search" method="get">
         <input type="search" class="form-control" name="search" placeholder="Search For A Title" value="{{ query }}" autocomplete="off">
         <button class="btn btn-dark">Search</button>
       </form>
@@ -43,7 +43,7 @@
 
           <div class="detailed-view">
             <div id="tip">
-              <p id="tip-message"><b>TIP: </b>Click on a book to see more about it</p>
+              <p id="tip-message"><b>TIP: </b>Click on a book to see more about it here</p>
             </div>
             <div class="record-cover">
               <img id="cover" src="" alt="">
