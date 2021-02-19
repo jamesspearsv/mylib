@@ -13,7 +13,7 @@
     {% block css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="/">MyLib</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler">
@@ -23,12 +23,12 @@
             <!-- Logged in NavBar -->
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <div class="navbar-nav">
-                  <a href="/catalog" class="nav-link">Catalog</a>
-                  <a href="#" class="nav-link">Account</a>
+                  <a href="#" class="nav-link">About MyLib</a>
+                  <a href="#" class="nav-link">My Account</a>
                   <a href="/logout" class="nav-link">Logout</a>
                 </div>
                 <form class="navbar-search d-flex" action="/search" method="get">
-                  <input type="search" class="form-control" name="search" placeholder="Search For A Title" autocomplete="off">
+                  <input type="search" class="form-control" name="search" placeholder="Search For A Title or Author" autocomplete="off">
                   <button class="btn btn-light">Search</button>
                 </form>
               </div>

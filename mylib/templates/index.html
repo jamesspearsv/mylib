@@ -5,20 +5,50 @@
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="/static/css/dashboard.css">
+<link rel="stylesheet" href="/static/css/index.css">
 {% endblock %}
 
 {% block main %}
-    <h2 id="welcome">Hello {{ name }}</h2>
-    <div class="dashboard-container">
-        <div class="dashboard-content" id="catalog-quickview">
-            <p>catalog</p>
+    <h2 id="welcome">Hello {{ name }}!</h2>
+
+    {% if catalog | length == 0 %}
+        <div id="catalog-messege">
+            <h2>Oops! Looks like there's nothing here!</h2>
+            <p>Search for a title to add to your catalog</p>
         </div>
-        <div class="dashboard-content" id="recent-activity">
-            <p>activity</p>
-        </div>
-        <div class="dashboard-content" id="other-content">
-            <p>other</p>
-        </div>
-    </div>
+    {% else %}
+        <table class="table table-striped" id="catalogTable">
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Subtitle</th>
+                <th>Primary Author</th>
+                <th>Publisher</th>
+                <th>Date</th>
+                <th>ISBN</th>
+                <th>Pages</th>
+                <th>Format</th>
+                <th></th>
+            </tr>
+            {% for record in catalog %}
+            <tr>
+                <td><img src="{{ record.cover }}" alt="Book Cover" class="catalogCover"></td>
+                <td>{{ record.title }}</td>
+                <td>{{ record.subtitle }}</td>
+                <td>{{ record.authorName }}</td>
+                <td>{{ record.publisherName }}</td>
+                <td>{{ record.publicationDate }}</td>
+                <td>{{ record.ISBN }}</td>
+                <td>{{ record.pagination }} pp.</td>
+                <td>{{ record.format }}</td>
+                <td>
+                    <form action="/catalog" method="post">
+                        <input type="hidden" name="titleId" value="{{ record.id }}">
+                        <button type="submit" class="btn btn-dark">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+    {% endif %}
+    </table>
 {% endblock %}

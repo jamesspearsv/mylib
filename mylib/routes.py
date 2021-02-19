@@ -13,11 +13,37 @@ from flask import flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    name = Users.query.filter_by(id=session["user_id"]).first()
-    return render_template("index.html", name=name.username)
+    if request.method == "POST": 
+        title = request.form.get("titleId")
+        user = session["user_id"]
+
+        record = Catalogs.query.filter_by(titleId=title, userId=user).first()
+
+        try:
+            db.session.delete(record)
+            db.session.commit()
+        except:
+            return "Error: Delete record"
+
+        return redirect("/")
+    else:
+        name = Users.query.filter_by(id=session["user_id"]).first()
+        # Join Titles, Authors, Publishers, and Catalogs tables
+        #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
+        
+        #for title, author, publisher in catalog:
+        #    print(title.title, author.authorName, publisher.publisherName)
+
+        # Retreives catalog info from database
+        catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
+                Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
+                .join(Authors, Publishers, Catalogs).order_by(Titles.title)
+                .filter(Catalogs.userId==session["user_id"])).all()
+
+        return render_template("index.html", name=name.username, catalog=catalog)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -137,7 +163,7 @@ def add():
 
         # Check is publisher is in Publishers table
         if not Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first():
-            # TODO add publisher to Publisher table
+            # add publisher to Publisher table
             new_publisher = Publishers(publisherName=catalogRecord["publisher"])
 
             try:
@@ -162,6 +188,7 @@ def add():
             except:
                 return "Error: Title"
 
+        # Check if title in currently in user's catalog
         if not Catalogs.query.filter_by(userId=session["user_id"], titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
             new_record = Catalogs(format=request.form.get("format"), userId=session["user_id"], 
             titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id)
@@ -169,7 +196,7 @@ def add():
             try:
                 db.session.add(new_record)
                 db.session.commit()
-                flash(f"Success! Added to your catalog!")
+                flash(f"Succesfully added to your catalog!")
                 return redirect("/")
             except:
                 return "Error: Catalog"
@@ -185,30 +212,35 @@ def add():
 
         return render_template("edit.html", volumeInfo=volumeInfo)
 
-@app.route("/catalog", methods=["GET"])
+@app.route("/catalog", methods=["GET", "POST"])
 @login_required
 def catalog():
-    # Join Titles, Authors, Publishers, and Catalogs tables
-    #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
-    
-    #for title, author, publisher in catalog:
-    #    print(title.title, author.authorName, publisher.publisherName)
+    if request.method == "POST": 
+        title = request.form.get("titleId")
+        user = session["user_id"]
 
-    # Retreives catalog info from database
-    catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
-            Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName)
-            .join(Authors, Publishers, Catalogs)
-            .filter(Catalogs.userId==session["user_id"])).all()
-    
-    i = 0
-    for item in catalog:
-        print(f"{i}: {item}")
-        print()
-        i += 1
-    
+        record = Catalogs.query.filter_by(titleId=title, userId=user).first()
 
-    return "TODO"
+        try:
+            db.session.delete(record)
+            db.session.commit()
+        except:
+            return "Error: Delete record"
 
-@app.route("/test", methods=["POST"])
-def test():
-    return "POSTED!"
+        return redirect("/")
+    else:
+        # Join Titles, Authors, Publishers, and Catalogs tables
+        #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
+        
+        #for title, author, publisher in catalog:
+        #    print(title.title, author.authorName, publisher.publisherName)
+
+        # Retreives catalog info from database
+        catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
+                Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
+                .join(Authors, Publishers, Catalogs).order_by(Titles.title)
+                .filter(Catalogs.userId==session["user_id"])).all()
+
+        print(len(catalog))
+        
+        return render_template("index.html", catalog=catalog)

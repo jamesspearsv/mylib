@@ -1,0 +1,18 @@
+#catalogTable {
+    margin-top: 2%;
+}
+
+#catalog-messege {
+    text-align: center;
+    margin-top: 25vh;
+}
+
+#welcome {
+    text-align: center;
+    margin-top: 1%;
+}
+
+.catalogCover {
+    width: auto;
+    height: 15vh;
+}
