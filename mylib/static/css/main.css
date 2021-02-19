@@ -37,7 +37,22 @@
 
   /* Error alert */
   #error-banner {
-    width: 50%;
+    width: 40%;
     margin: auto;
     margin-top: 1%;
   }
+
+  .close {
+    border: none;
+    background-color: transparent;
+    float: right;
+    color: #777777;
+    transition-duration: 0.4s
+  }
+
+  .close:hover {
+    background-color: #555555;
+    color: #aaaaaa;
+    border-radius: 5%;
+  }
+ 

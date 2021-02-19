@@ -115,7 +115,7 @@ def login():
 
         row = Users.query.filter_by(username=user).first()
         if not row or not check_password_hash(row.hashword, password):
-            flash("Invalid username or password. Please try again")
+            flash("Invalid username or password.")
             return redirect("/login")
         else:
             session["user_id"] = row.id
@@ -196,13 +196,13 @@ def add():
             try:
                 db.session.add(new_record)
                 db.session.commit()
-                flash(f"Succesfully added to your catalog!")
+                flash("Succesfully added to your catalog!")
                 return redirect("/")
             except:
                 return "Error: Catalog"
         
         else: 
-            flash(f"Looks like that one's already in your catalog.")
+            flash("Looks like that one's already in your catalog.")
             return redirect("/")
     
     else:
@@ -224,10 +224,12 @@ def catalog():
         try:
             db.session.delete(record)
             db.session.commit()
+
+            flash("Removed record from catalog")
+            return redirect("/")
         except:
             return "Error: Delete record"
 
-        return redirect("/")
     else:
         # Join Titles, Authors, Publishers, and Catalogs tables
         #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
@@ -240,7 +242,5 @@ def catalog():
                 Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
                 .join(Authors, Publishers, Catalogs).order_by(Titles.title)
                 .filter(Catalogs.userId==session["user_id"])).all()
-
-        print(len(catalog))
         
         return render_template("index.html", catalog=catalog)
