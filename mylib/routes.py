@@ -113,6 +113,7 @@ def login():
         user = request.form["username"]
         password = request.form["password"]
 
+        # TODO write check to allow user to login with email
         row = Users.query.filter_by(username=user).first()
         if not row or not check_password_hash(row.hashword, password):
             flash("Invalid username or password.")
