@@ -15,11 +15,11 @@ async function grabVolumeInfo (volumeID) {
         let volume = grabVolumeInfo(volumeID)
           .then(volume => {
             let add_btn = document.getElementById('add-btn');
-            // let description_label = document.getElementById('description-label');
+             let description_label = document.getElementById('description-label');
 
-            // change elements in DOM. Title, Subtitle, Publisher, etc.
+             // change elements in DOM. Title, Subtitle, Publisher, etc.
             add_btn.removeAttribute('style');
-            // description_label.removeAttribute('style');
+            description_label.removeAttribute('style');
             // Check if volume has cover link
             try {
               document.getElementById('cover').setAttribute('src', volume.volumeInfo.imageLinks.thumbnail)
@@ -38,7 +38,7 @@ async function grabVolumeInfo (volumeID) {
             document.getElementById('publisher').innerHTML = '<b>Publisher: </b>' + volume.volumeInfo.publisher;
             document.getElementById('publicationDate').innerHTML = '<b>Publication Date: </b>' + volume.volumeInfo.publishedDate;
             document.getElementById('ISBN').innerHTML = '<b>ISBN: </b>' + volume.volumeInfo.industryIdentifiers[0].identifier;
-            //document.getElementById('description').innerHTML = volume.volumeInfo.description;
+          document.getElementById('description').innerHTML = volume.volumeInfo.description;
             document.getElementById('add-to-catalog').setAttribute('value', volumeID)
             document.getElementById('tip-message').innerHTML = 'Information provided by Google Books';
           })
