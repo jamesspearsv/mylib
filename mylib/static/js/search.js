@@ -5,9 +5,6 @@ async function grabVolumeInfo (volumeID) {
     }
 
     // Grab volume ID from search results list to populate record details pane
-      // Commented code here is left over from old iteration that displayed book
-      // description from Google Books. It remains her in case I want to revive the
-      // feature
     let title_links = document.querySelectorAll('tr');
     for (let i = 0; i < title_links.length; i++) {
       title_links[i].addEventListener('click', () => {
@@ -17,7 +14,7 @@ async function grabVolumeInfo (volumeID) {
             let add_btn = document.getElementById('add-btn');
              let description_label = document.getElementById('description-label');
 
-             // change elements in DOM. Title, Subtitle, Publisher, etc.
+            // change elements in DOM. Title, Subtitle, Publisher, etc...
             add_btn.removeAttribute('style');
             description_label.removeAttribute('style');
             // Check if volume has cover link
@@ -38,9 +35,8 @@ async function grabVolumeInfo (volumeID) {
             document.getElementById('publisher').innerHTML = '<b>Publisher: </b>' + volume.volumeInfo.publisher;
             document.getElementById('publicationDate').innerHTML = '<b>Publication Date: </b>' + volume.volumeInfo.publishedDate;
             document.getElementById('ISBN').innerHTML = '<b>ISBN: </b>' + volume.volumeInfo.industryIdentifiers[0].identifier;
-          document.getElementById('description').innerHTML = volume.volumeInfo.description;
+            document.getElementById('description').innerHTML = volume.volumeInfo.description;
             document.getElementById('add-to-catalog').setAttribute('value', volumeID)
-            document.getElementById('tip-message').innerHTML = 'Information provided by Google Books';
           })
       });
     }

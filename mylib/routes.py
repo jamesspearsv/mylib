@@ -216,11 +216,14 @@ def add():
 @login_required
 def catalog():
     if request.method == "POST": 
+        # Grabs titleId from posted form and userId from session
         title = request.form.get("titleId")
         user = session["user_id"]
 
+        # Gets desired record from user's catalog
         record = Catalogs.query.filter_by(titleId=title, userId=user).first()
 
+        # Removes record from user's catalog and commits changes
         try:
             db.session.delete(record)
             db.session.commit()
@@ -231,16 +234,15 @@ def catalog():
             return "Error: Delete record"
 
     else:
-        # Join Titles, Authors, Publishers, and Catalogs tables
-        #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
-        
-        #for title, author, publisher in catalog:
-        #    print(title.title, author.authorName, publisher.publisherName)
-
-        # Retreives catalog info from database
+        # Join Titles, Authors, Publishers, and Catalogs tables &
+        # retreives catalog info from database
         catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
                 Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
                 .join(Authors, Publishers, Catalogs).order_by(Titles.title)
                 .filter(Catalogs.userId==session["user_id"])).all()
         
         return render_template("index.html", catalog=catalog)
+
+@app.route("/about")
+def about():
+    return render_template("about.html")

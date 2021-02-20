@@ -55,4 +55,9 @@
     color: #aaaaaa;
     border-radius: 5%;
   }
- 
+
+/* Copyright */
+.copyright {
+  text-align: center;
+  margin-top: 2%;
+}
