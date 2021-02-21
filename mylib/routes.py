@@ -30,7 +30,7 @@ def index():
 
         return redirect("/")
     else:
-        name = Users.query.filter_by(id=session["user_id"]).first()
+        name = Users.query.get(session["user_id"])
         # Join Titles, Authors, Publishers, and Catalogs tables
         #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
         
@@ -267,31 +267,63 @@ def catalog():
 def about():
     return render_template("about.html")
 
-@app.route("/account", methods=["GET", "POST"])
+@app.route("/account")
 @login_required
 def account():
-    if request.method == "POST":
-        return "TODO"
-    else:
-        # Retreive user information from DB
-        row = Users.query.filter_by(id=session["user_id"]).first()
+    # Retreive user information from DB
+    row = Users.query.get(session["user_id"])
 
-        user = {
-            "id": row.id,
-            "username": row.username,
-            "email": row.email,
-        }
+    user = {
+        "id": row.id,
+        "username": row.username,
+        "email": row.email,
+    }
 
-        return render_template("account.html", user=user)
+    return render_template("account.html", user=user)
 
 
 @app.route("/account/username", methods=["POST"])
 @login_required
 def editUsername():
-    return "TODO"
+    if not check_password_hash(Users.query.get(session["user_id"]).hashword, request.form.get('password')):
+        flash("Invalid password")
+        return redirect("/account")
+    else:
+        user = Users.query.get(session["user_id"])
+        try:
+            user.username = request.form.get("username")
+            print(user.username)
+            db.session.commit()
+            flash("Successfully updated username!")
+            return redirect("/account")
+        except:
+            return 'Error updating username'
 
 
 @app.route("/account/email", methods=["POST"])
 @login_required
 def editEmail():
-    return "TODO"
+    if not check_password_hash(Users.query.get(session["user_id"]).hashword, request.form.get('password')):
+        flash("Invalid password")
+        return redirect("/account")
+    else:
+        user = Users.query.get(session["user_id"])
+        try:
+            user.email = request.form.get("email")
+            print(user.email)
+            db.session.commit()
+            flash("Successfully updated email!")
+            return redirect("/account")
+        except:
+            return 'Error updating email'
+
+
+@app.route("/account/password", methods=["POST"])
+@login_required
+def editPassword():
+    if not check_password_hash(Users.query.get(session["user_id"]).hashword, request.form.get('password')):
+        flash("Invalid password")
+        return redirect("/account")
+    else:
+        # TODO Perform password requirement check on new password
+        return "TODO"

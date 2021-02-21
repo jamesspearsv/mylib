@@ -12,23 +12,23 @@
 <div class="container forms">
     <form action="/register" method="POST">
       <h3>Sign-Up</h3>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="text" class="form-control" id="username" placeholder="Username" name="username" autocomplete="off" value="{{ username }}">
         <label for="username">Username</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="text" class="form-control" id="email" placeholder="Email" name="email" autocomplete="off" value="{{ email }}">
         <label for="email">Email</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="password" class="form-control" id="password" placeholder="Password" name="password" autocomplete="off" value="{{ password }}">
         <label for="email">Password</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="password" class="form-control" id="confirmation" placeholder="Password (again)" name="confirmation" autocomplete="off" value="{{ password }}">
         <label for="email">Password (again)</label>
       </div>
-      <div class="password-reqs form-control">
+      <div class="password-reqs form-group">
         <p id="reqTitle">Password Requirements:</p>
         <p id="req1">At least 6 characters long</p>
         <p id="req2">At least 1 digit [0-9]</p>

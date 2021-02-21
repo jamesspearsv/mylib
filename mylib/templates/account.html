@@ -9,39 +9,76 @@
 {% endblock %}
 
 {% block main %}
-    <h2 id="welcome">Hi {{  user.username }}</h2>
+    <h2 id="welcome">Hi {{  user.username }}!</h2>
     <hr>
-    <div id="account-content">
-        <div class="account-field">
-            <div class="label">
-                <p><b>Username: </b></p>
-            </div>
-            <div class="info-display">
-                <p>{{ user.username }}</p>
-            </div>
-            <div class="edit">
+    <h3>Account Details</h3>
+    <div id="account-info">
+        <div class="field">
+                <label><b>Username: </b></label>
+                <span>{{ user.username }}</span>
                 <button class="edit-btn" value="username"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
-            </div>
-
-            <form action="/account/username" method="post" id="username-form" class="edit-form" hidden>
-                <p>Enter your current password to update your username address.</p>
-                <input type="email" name="email" id="email" class="emailUsername" value="{{ user.username }}">
-                <input type="password" name="password" id="password">
-                <input type="submit" value="Edit" class="btn btn-dark">
-            </form>
+                <form action="/account/username" method="post" id="username-form" class="edit-forms forms" hidden>
+                    <div class="form-label">
+                        <p>Enter your current password to update your username.</p>
+                    </div>
+                    <div class="form-floating form-group">
+                        <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}" autocomplete="off">
+                        <label for="username">New username</label>
+                    </div>
+                    <div class="form-floating form-group">
+                        <input type="password" class="form-control" name="password" autocomplete="off">
+                        <label for="password">Current password</label>
+                    </div>
+                    <input type="submit" value="Edit" class="btn btn-dark">
+                </form>
         </div>
-        <div class="account-field">
-            <p><b>Email adress: </b></p>
-            <p>{{ user.email }}</p>
+        <div class="field">
+            <label><b>Email address: </b></label>
+            <span>{{ user.email }}</span>
             <button class="edit-btn" value="email"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
-
-            <form action="/account/email" method="post" id="email-form" class="edit-form" hidden>
-                <p>Enter your current password to update your email address.</p>
-                <input type="email" name="email" id="email" class="emailUsername" value="{{ user.email }}">
-                <input type="password" name="password" id="password">
+            <form action="/account/email" method="post" id="email-form" class="edit-forms forms" hidden>
+                <div class="form-label">
+                    <p>Enter your current password to update your email address.</p>
+                </div>
+                <div class="form-floating">
+                    <input type="email" name="email" class="form-control" value="{{ user.email }}" autocomplete="off">
+                    <label for="email">New email address</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" name="password" autocomplete="off">
+                    <label for="password">Current password</label>
+                </div>
                 <input type="submit" value="Edit" class="btn btn-dark">
             </form>
         </div>
     </div>
+    <hr>
+    <h3>Update Your Password</h3>
+    <form action="/account/password" method="post" id="password-form" class="forms">
+        <div id="form-inputs">
+            <div class="form-label">
+                <p>Enter your current password to update your password.</p>
+                <p>Be sure your new password meets the requirements</p>
+            </div>
+            <div class="form-floating">
+                <input type="newPassword" name="newPassword" class="form-control" autocomplete="off">
+                <label for="newPassword">New password</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="password" autocomplete="off">
+                <label for="password">Current password</label>
+            </div>
+            <input type="submit" value="Edit" class="btn btn-dark">
+        </div>
+        <div class="password-reqs form-group">
+            <p id="reqTitle"><b>Password Requirements</b></p>
+            <p id="req1">At least 6 characters long</p>
+            <p id="req2">At least 1 digit [0-9]</p>
+            <p id="req3">At least 1 upper-case letter [A-Z]</p>
+        </div>
+    </form>
+    <hr>
+    <h3>Delete Your Account</h3>
+
     <script src="/static/js/account.js"></script>
 {% endblock %}

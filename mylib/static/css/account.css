@@ -2,15 +2,37 @@
     margin-top: 3%;
 }
 
-.account-field button {
+.field {
+    margin-top: 1%;
+}
+
+.edit-forms {
+    width: 35%;
+}
+
+.edit-forms div, .btn {
+    margin-top: 1%;
+}
+
+.edit-btn {
     background-color: transparent;
     border: none;
 }
 
-.account-field {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto auto;
+#password-form {
+    display: flex;
+    flex-direction: row;
 }
 
+#form-inputs div, input {
+    margin-top: 1%;
+}
+
+.password-reqs {
+    margin-left: 4%;
+    padding: 2%;
+    background-color: #dddddd;
+    border: none;
+    border-radius: 5%;
+}
 
