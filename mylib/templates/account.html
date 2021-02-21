@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Account
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/account.css">
+{% endblock %}
+
+{% block main %}
+    <h2 id="welcome">Hi {{  user.username }}</h2>
+    <hr>
+    <div id="account-content">
+        <div class="account-field">
+            <div class="label">
+                <p><b>Username: </b></p>
+            </div>
+            <div class="info-display">
+                <p>{{ user.username }}</p>
+            </div>
+            <div class="edit">
+                <button class="edit-btn" value="username"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
+            </div>
+
+            <form action="/account/username" method="post" id="username-form" class="edit-form" hidden>
+                <p>Enter your current password to update your username address.</p>
+                <input type="email" name="email" id="email" class="emailUsername" value="{{ user.username }}">
+                <input type="password" name="password" id="password">
+                <input type="submit" value="Edit" class="btn btn-dark">
+            </form>
+        </div>
+        <div class="account-field">
+            <p><b>Email adress: </b></p>
+            <p>{{ user.email }}</p>
+            <button class="edit-btn" value="email"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
+
+            <form action="/account/email" method="post" id="email-form" class="edit-form" hidden>
+                <p>Enter your current password to update your email address.</p>
+                <input type="email" name="email" id="email" class="emailUsername" value="{{ user.email }}">
+                <input type="password" name="password" id="password">
+                <input type="submit" value="Edit" class="btn btn-dark">
+            </form>
+        </div>
+    </div>
+    <script src="/static/js/account.js"></script>
+{% endblock %}

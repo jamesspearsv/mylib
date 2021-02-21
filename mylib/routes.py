@@ -110,17 +110,36 @@ def login():
         # clear session 
         session.clear()
 
+        # Grab user input from posted login form
         user = request.form["username"]
         password = request.form["password"]
 
-        # TODO write check to allow user to login with email
-        row = Users.query.filter_by(username=user).first()
-        if not row or not check_password_hash(row.hashword, password):
-            flash("Invalid username or password.")
-            return redirect("/login")
-        else:
-            session["user_id"] = row.id
-            return redirect("/")
+        # If entered data matches a username in DB
+        row = Users.query.filter_by(username=user).all()
+        if len(row) == 1:
+            # If password is incorrect
+            if not check_password_hash(row[0].hashword, password):
+                flash("Invalid password.")
+                return redirect("/login")
+            else:
+                session["user_id"] = row[0].id
+                return redirect("/")
+
+        # Else check if entered data matched an email in DB
+        row = Users.query.filter_by(email=user).all()
+        if len(row) == 1:
+            # If password is incorrect
+            if not check_password_hash(row[0].hashword, password):
+                flash("Invalid password.")
+                return redirect("/login")
+            else:
+                session["user_id"] = row[0].id
+                return redirect("/")
+
+        # If entered data matches neither a username or an email in DB
+        flash ("Invalid username or email")
+        return redirect("/login")
+
     else:
         return render_template("login.html")
 
@@ -247,3 +266,32 @@ def catalog():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/account", methods=["GET", "POST"])
+@login_required
+def account():
+    if request.method == "POST":
+        return "TODO"
+    else:
+        # Retreive user information from DB
+        row = Users.query.filter_by(id=session["user_id"]).first()
+
+        user = {
+            "id": row.id,
+            "username": row.username,
+            "email": row.email,
+        }
+
+        return render_template("account.html", user=user)
+
+
+@app.route("/account/username", methods=["POST"])
+@login_required
+def editUsername():
+    return "TODO"
+
+
+@app.route("/account/email", methods=["POST"])
+@login_required
+def editEmail():
+    return "TODO"

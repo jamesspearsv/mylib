@@ -1,3 +1,44 @@
+#wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+
+#about-content {
+    width: 70%;
+}
+
+#link-tree {
+    margin-left: auto;
+    margin-bottom: auto;
+    background-color: #dddddd;
+    padding: 2%;
+    border: none;
+    border-radius: 5%;
+}
+
+.links {
+    margin-top: 3%;
+}
+
 #title-logo {
     font-family: 'Fredoka One', sans-serif;
+}
+
+#about-content a {
+    text-decoration: none;
+}
+
+#about-content a:hover {
+    text-decoration: underline;
+}
+
+.links a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    /*font-weight: bold;*/
 }
