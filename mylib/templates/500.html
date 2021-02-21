@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    500 Server Error
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/error.css">
+{% endblock %}
+
+{% block main %}
+<div class="content">
+    <h2>500 Internal Server</h2>
+    <p>Looks like we're having issues on our end.</p>
+    <p>Head back home <a href="/">here</a></p>
+</div>
+{% endblock %}

@@ -11,8 +11,15 @@ for (let i = 0; i < edit_btns.length; i++ ) {
             } else {
                 form.setAttribute('hidden', true)
             }
-        } else {
+        } else if (type == 'email') {
             let form = document.getElementById('email-form');
+            if (form.hasAttribute('hidden')) {
+                form.removeAttribute('hidden')
+            } else {
+                form.setAttribute('hidden', true)
+            }
+        } else if (type == 'delete') {
+            let form = document.getElementById('delete-form');
             if (form.hasAttribute('hidden')) {
                 form.removeAttribute('hidden')
             } else {

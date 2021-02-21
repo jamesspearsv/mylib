@@ -9,7 +9,7 @@ from mylib.models import Users, Titles, Authors, Publishers, Catalogs
 from mylib.helpers import login_required, googleBooksSearch, googleBooksRetreive
 
 # Import flask functions and security functions
-from flask import flash, redirect, render_template, request, session
+from flask import flash, redirect, render_template, request, session, abort
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -26,16 +26,12 @@ def index():
             db.session.delete(record)
             db.session.commit()
         except:
-            return "Error: Delete record"
+            # Internal error. Abort and throw 500 error
+            return abort(500)
 
         return redirect("/")
     else:
         name = Users.query.get(session["user_id"])
-        # Join Titles, Authors, Publishers, and Catalogs tables
-        #catalog = (db.session.query(Titles, Authors, Publishers).join(Authors, Publishers)).all()
-        
-        #for title, author, publisher in catalog:
-        #    print(title.title, author.authorName, publisher.publisherName)
 
         # Retreives catalog info from database
         catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
@@ -95,7 +91,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
         except:
-            return "Error"
+            return abort(500)
 
         return redirect("/login")
 
@@ -157,7 +153,8 @@ def search():
     # Gets input from search box and return serch.html with user search term
     search_term = request.args.get("search")
     if search_term == None or search_term == "":
-        return "Error" # TODO create error html page
+        flash("Please enter a search term")
+        return redirect("/")
     results = googleBooksSearch(search_term)
     return render_template("search.html", query=search_term, results=results)
 
@@ -179,7 +176,7 @@ def add():
                 db.session.add(new_author)
                 db.session.commit()
             except:
-                return "Error: Author"
+                return abort(500)
 
         # Check is publisher is in Publishers table
         if not Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first():
@@ -190,7 +187,7 @@ def add():
                 db.session.add(new_publisher)
                 db.session.commit()
             except:
-                return "Error: Publisher"
+                return abort(500)
 
         # Check if title is Titles table already
         if not Titles.query.filter_by(title=catalogRecord["title"]).first():
@@ -206,7 +203,7 @@ def add():
                 db.session.add(new_title)
                 db.session.commit()
             except:
-                return "Error: Title"
+                return abort(500)
 
         # Check if title in currently in user's catalog
         if not Catalogs.query.filter_by(userId=session["user_id"], titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
@@ -219,7 +216,7 @@ def add():
                 flash("Succesfully added to your catalog!")
                 return redirect("/")
             except:
-                return "Error: Catalog"
+                return abort(500)
         
         else: 
             flash("Looks like that one's already in your catalog.")
@@ -251,7 +248,7 @@ def catalog():
             flash("Removed record from catalog")
             return redirect("/")
         except:
-            return "Error: Delete record"
+            return abort(500)
 
     else:
         # Join Titles, Authors, Publishers, and Catalogs tables &
@@ -297,7 +294,7 @@ def editUsername():
             flash("Successfully updated username!")
             return redirect("/account")
         except:
-            return 'Error updating username'
+            return abort(500)
 
 
 @app.route("/account/email", methods=["POST"])
@@ -310,12 +307,11 @@ def editEmail():
         user = Users.query.get(session["user_id"])
         try:
             user.email = request.form.get("email")
-            print(user.email)
             db.session.commit()
             flash("Successfully updated email!")
             return redirect("/account")
         except:
-            return 'Error updating email'
+            return abort(500)
 
 
 @app.route("/account/password", methods=["POST"])
@@ -326,4 +322,82 @@ def editPassword():
         return redirect("/account")
     else:
         # TODO Perform password requirement check on new password
-        return "TODO"
+        #At least 6 characters long
+        # At least 1 digit [0-9]
+        # At least 1 upper-case letter [A-Z]
+        newPassword = request.form.get("newPassword")
+
+        reqs = {
+            "length": False,
+            "digit": False,
+            "upperCase": False
+        }
+
+        for letter in newPassword:
+            if letter.isupper():
+                reqs["upperCase"] = True
+            if letter.isdigit():
+                reqs["digit"] = True
+        if len(newPassword) >= 6:
+            reqs["length"] = True
+
+        if reqs["length"] == True and reqs["digit"] == True and reqs["upperCase"] == True:
+            user = Users.query.get(session["user_id"])
+            newHashword = generate_password_hash(newPassword)
+
+            try:
+                user.hashword = newHashword
+                db.session.commit()
+                flash("Successfully updated your password!")
+                return redirect("/account")
+            except:
+                return abort(500)
+
+
+        else:
+            flash("Password requirements not meet. Your password was not changed. Please try agin.")
+            return redirect("/account")
+
+@app.route("/account/delete", methods=["POST"])
+@login_required
+def delete():
+    enteredUsername = request.form.get("username")
+    enteredPassword = request.form.get("password")
+
+    print(enteredUsername)
+    print(enteredPassword)
+
+    user = Users.query.get(session["user_id"])
+
+    if enteredUsername != user.username:
+        flash("Invalid username.")
+        return redirect("/account")
+    elif not check_password_hash(user.hashword, enteredPassword):
+        flash("Invalid password.")
+        return redirect("/account")
+    else:
+        catalog = Catalogs.query.filter_by(userId=session["user_id"]).all()
+        for item in catalog:
+            try:
+                db.session.delete(item)
+                db.session.commit()
+            except:
+                abort(500)
+
+        try:
+            db.session.delete(user)
+            db.session.commit()
+        except:
+            return abort(500)
+
+        return redirect("/logout")
+
+# Error handelers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template("500.html"), 500
+

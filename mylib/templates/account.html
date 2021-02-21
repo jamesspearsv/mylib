@@ -58,10 +58,10 @@
         <div id="form-inputs">
             <div class="form-label">
                 <p>Enter your current password to update your password.</p>
-                <p>Be sure your new password meets the requirements</p>
+                <p>Be sure your new password meets the requirements.</p>
             </div>
             <div class="form-floating">
-                <input type="newPassword" name="newPassword" class="form-control" autocomplete="off">
+                <input type="password" name="newPassword" class="form-control" autocomplete="off">
                 <label for="newPassword">New password</label>
             </div>
             <div class="form-floating">
@@ -78,7 +78,22 @@
         </div>
     </form>
     <hr>
-    <h3>Delete Your Account</h3>
-
+    <div id="delete-heading">
+        <h3>Delete Your Account</h3>
+        <button class="edit-btn" value="delete"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
+    </div>
+    <p class="warning-messege"><b>WARNING: This will delete your entire account and any catalogs you have created. Procede with extreme caution.</b></p>
+    <form action="/account/delete" method="post" id="delete-form" class="edit-forms" hidden>
+        <p>Enter your current username and password to delete your entire account</p>
+        <div class="form-floating form-group">
+            <input type="text" name="username" class="form-control" autocomplete="off">
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating form-group">
+            <input type="password" class="form-control" name="password" autocomplete="off">
+            <label for="password">Current password</label>
+        </div>
+        <input type="submit" name="delete" id="delete" class="btn btn-danger" value="DELETE">
+    </form>
     <script src="/static/js/account.js"></script>
 {% endblock %}

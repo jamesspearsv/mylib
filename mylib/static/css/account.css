@@ -7,7 +7,7 @@
 }
 
 .edit-forms {
-    width: 35%;
+    width: 33%;
 }
 
 .edit-forms div, .btn {
@@ -36,3 +36,14 @@
     border-radius: 5%;
 }
 
+#delete-form {
+    margin-bottom: 5%;
+}
+
+#delete-heading {
+    display: flex;
+    flex-direction: row;
+}
+#delete-heading button {
+    margin-left: 1%;
+}
