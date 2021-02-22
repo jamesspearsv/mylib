@@ -183,7 +183,7 @@ def add():
                 db.session.add(new_author)
                 db.session.commit()
             except:
-                return abort(500)
+                return "Author"
 
         # Check is publisher is in Publishers table
         if not Publishers.query.filter_by(publisherName=catalogRecord["publisher"]).first():
@@ -194,7 +194,7 @@ def add():
                 db.session.add(new_publisher)
                 db.session.commit()
             except:
-                return abort(500)
+                return "Publisher"
 
         # Check if title is Titles table already
         if not Titles.query.filter_by(title=catalogRecord["title"]).first():
@@ -210,7 +210,7 @@ def add():
                 db.session.add(new_title)
                 db.session.commit()
             except:
-                return abort(500)
+                return "Title"
 
         # Check if title in currently in user's catalog
         if not Catalogs.query.filter_by(userId=session["user_id"], titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
@@ -223,7 +223,7 @@ def add():
                 flash("Succesfully added to your catalog!")
                 return redirect("/")
             except:
-                return abort(500)
+                return "Catalog"
         
         else: 
             flash("Looks like that one's already in your catalog.")

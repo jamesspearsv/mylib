@@ -16,7 +16,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 
 # Set development mode
-DEV_MODE = False
+DEV_MODE = True
 
 # create flask app
 app = Flask(__name__)
@@ -28,7 +28,7 @@ app.secret_key = secret\
 # Set Dev mode or Prod mode
 if DEV_MODE == True:
     #setup and initialize sqlalcemy database in Dev Mode
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://smvpyaqafimodi:0aec159d6e68eebc47cd7280e61b9cef34b8f5fd3efd41594bcfbb11a7489746@ec2-3-222-127-167.compute-1.amazonaws.com:5432/d7b7b4usea5mgm'
     app.debug = True
 else:
     #setup and initialize sqlalcemy database in Prod Mode
@@ -51,6 +51,3 @@ Session(app)
 
 # Import app routes after creating app
 from mylib import routes
-
-# Create DB is it doesn't already exist
-db.create_all()

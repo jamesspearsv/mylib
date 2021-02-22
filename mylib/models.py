@@ -16,7 +16,7 @@ class Titles(db.Model):
     subtitle = db.Column(db.Text)
     ISBN = db.Column(db.String(13), unique=True)
     publicationDate = db.Column(db.String(15))
-    cover = db.Column(db.String(200), unique=True)
+    cover = db.Column(db.String(500), unique=True)
     pagination = db.Column(db.Integer)
     googleBooksId = db.Column(db.String(100), unique=True, nullable=False)
 
