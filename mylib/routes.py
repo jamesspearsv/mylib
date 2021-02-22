@@ -13,6 +13,13 @@ from flask import flash, redirect, render_template, request, session, abort
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
