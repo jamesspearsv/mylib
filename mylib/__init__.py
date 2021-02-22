@@ -10,6 +10,7 @@ from flask import Flask, session
 from flask_session import Session
 from tempfile import mkdtemp
 import secrets
+import os
 
 # Import flask-sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -31,7 +32,7 @@ if DEV_MODE == True:
     app.debug = True
 else:
     #setup and initialize sqlalcemy database in Prod Mode
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     app.debug = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -52,7 +53,4 @@ Session(app)
 from mylib import routes
 
 # Create DB is it doesn't already exist
-try:
-    db.create_all()
-except:
-    pass
+db.create_all()
