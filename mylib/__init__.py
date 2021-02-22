@@ -15,7 +15,7 @@ import secrets
 from flask_sqlalchemy import SQLAlchemy
 
 # Set development mode
-DEV_MODE = True
+DEV_MODE = False
 
 # create flask app
 app = Flask(__name__)
@@ -31,7 +31,7 @@ if DEV_MODE == True:
     app.debug = True
 else:
     #setup and initialize sqlalcemy database in Prod Mode
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tjadrugqxcdkfr:8b46ffbf8a52bb3eaffce3ccf5d26b4e52d5f37cff1974c2259b746d47d2111a@ec2-67-202-63-147.compute-1.amazonaws.com:5432/d9sc2psk1rv536'
     app.debug = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
