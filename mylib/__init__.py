@@ -41,7 +41,7 @@ login_manager.login_messege = ""
 login_manager.init_app(app)
 
 # Secure cookies
-app.config["SESSION_COOKIE_SECURE"] = True
+ # app.config["SESSION_COOKIE_SECURE"] = True
 # app.config["REMEMBER_COOKIE_REFRESH_EACH_REQUEST"] = True
 
 # Import app routes after creating app
