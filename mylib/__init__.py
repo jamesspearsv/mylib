@@ -3,15 +3,13 @@
 ## Create app, db, and other instances that will be used
 ## in routes, models, etc first. Then import routes
 
-from flask import Flask, session
-from flask_session import Session
-from tempfile import mkdtemp
+from flask import Flask
 import secrets
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 # Set development mode
-DEV_MODE = True
+DEV_MODE = None
 
 # create flask app
 app = Flask(__name__)
@@ -25,7 +23,7 @@ if DEV_MODE == True:
     #setup and initialize sqlalcemy database in Dev Mode
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
     app.debug = True
-else:
+if DEV_MODE == False:
     #setup and initialize sqlalcemy database in Prod Mode
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     app.debug = False

@@ -42,7 +42,7 @@
                 <td>{{ record.pagination }} pp.</td>
                 <td>{{ record.format }}</td>
                 <td>
-                    <form action="/catalog" method="post">
+                    <form action="/" method="post">
                         <input type="hidden" name="titleId" value="{{ record.id }}">
                         <button type="submit" class="btn btn-dark">Remove</button>
                     </form>

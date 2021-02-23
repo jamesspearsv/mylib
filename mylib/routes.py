@@ -30,7 +30,7 @@ def index():
             db.session.commit()
         except:
             # Internal error. Abort and throw 500 error
-            return abort(500)
+            return "Error: Delete"
 
         return redirect("/")
     else:
@@ -96,7 +96,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
         except:
-            return abort(500)
+            return "Error: Adding user"
 
         return redirect("/login")
 
@@ -233,36 +233,6 @@ def add():
 
         return render_template("edit.html", volumeInfo=volumeInfo)
 
-@app.route("/catalog", methods=["GET", "POST"])
-@login_required
-def catalog():
-    if request.method == "POST": 
-        # Grabs titleId from posted form and userId from session
-        title = request.form.get("titleId")
-        user = current_user.id
-
-        # Gets desired record from user's catalog
-        record = Catalogs.query.filter_by(titleId=title, userId=user).first()
-
-        # Removes record from user's catalog and commits changes
-        try:
-            db.session.delete(record)
-            db.session.commit()
-
-            flash("Removed record from catalog")
-            return redirect("/")
-        except:
-            return abort(500)
-
-    else:
-        # Join Titles, Authors, Publishers, and Catalogs tables &
-        # retreives catalog info from database
-        catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
-                Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
-                .join(Authors, Publishers, Catalogs).order_by(Titles.title)
-                .filter(Catalogs.userId==current_user.id)).all()
-        
-        return render_template("index.html", catalog=catalog)
 
 @app.route("/about")
 def about():
@@ -298,7 +268,7 @@ def editUsername():
             flash("Successfully updated username!")
             return redirect("/account")
         except:
-            return abort(500)
+            return "Error: Updating username"
 
 
 @app.route("/account/email", methods=["POST"])
@@ -315,7 +285,7 @@ def editEmail():
             flash("Successfully updated email!")
             return redirect("/account")
         except:
-            return abort(500)
+            return "Error: Updating email"
 
 
 @app.route("/account/password", methods=["POST"])
@@ -355,7 +325,7 @@ def editPassword():
                 flash("Successfully updated your password!")
                 return redirect("/account")
             except:
-                return abort(500)
+                return "Error: Updating password"
 
 
         else:
@@ -386,13 +356,13 @@ def delete():
                 db.session.delete(item)
                 db.session.commit()
             except:
-                abort(500)
+                pass
 
         try:
             db.session.delete(user)
             db.session.commit()
         except:
-            return abort(500)
+            return "Error: Deleting account"
 
         return redirect("/logout")
 
