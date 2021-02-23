@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 # Set development mode
-DEV_MODE = True
+DEV_MODE = False
 
 # create flask app
 app = Flask(__name__)
