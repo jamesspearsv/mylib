@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 # Set development mode
-DEV_MODE = False
+DEV_MODE = True
 
 # create flask app
 app = Flask(__name__)
@@ -39,7 +39,7 @@ login_manager.init_app(app)
 
 # Secure cookies
 app.config["SESSION_COOKIE_SECURE"] = True
-app.config["REMEMBER_COOKIE_REFRESH_EACH_REQUEST"] = True
+# app.config["REMEMBER_COOKIE_REFRESH_EACH_REQUEST"] = True
 
 # Import app routes after creating app
 from mylib import routes
