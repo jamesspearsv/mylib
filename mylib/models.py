@@ -1,9 +1,10 @@
 from mylib import db
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 
 # SQLAlchemy database models
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)

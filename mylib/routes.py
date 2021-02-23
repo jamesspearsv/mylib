@@ -6,11 +6,14 @@ from mylib import db
 
 # Import Dtatbase models and helper functions
 from mylib.models import Users, Titles, Authors, Publishers, Catalogs
-from mylib.helpers import login_required, googleBooksSearch, googleBooksRetreive
+from mylib.helpers import googleBooksSearch, googleBooksRetreive
 
 # Import flask functions and security functions
 from flask import flash, redirect, render_template, request, session, abort
 from werkzeug.security import check_password_hash, generate_password_hash
+
+# imports from flask-login
+from flask_login import login_user, login_required, logout_user, current_user
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -18,7 +21,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 def index():
     if request.method == "POST": 
         title = request.form.get("titleId")
-        user = session["user_id"]
+        user = current_user.id
 
         record = Catalogs.query.filter_by(titleId=title, userId=user).first()
 
@@ -31,15 +34,17 @@ def index():
 
         return redirect("/")
     else:
-        name = Users.query.get(session["user_id"])
+
+        name = Users.query.get(current_user.id)
 
         # Retreives catalog info from database
         catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
                 Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
                 .join(Authors, Publishers, Catalogs).order_by(Titles.title)
-                .filter(Catalogs.userId==session["user_id"])).all()
+                .filter(Catalogs.userId==current_user.id)).all()
 
         return render_template("index.html", name=name.username, catalog=catalog)
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -104,32 +109,32 @@ def login():
     if request.method == "POST":
 
         # clear session 
-        session.clear()
+        logout_user()
 
         # Grab user input from posted login form
         user = request.form["username"]
         password = request.form["password"]
 
         # If entered data matches a username in DB
-        row = Users.query.filter_by(username=user).all()
-        if len(row) == 1:
+        user = Users.query.filter_by(username=user).first()
+        if user:
             # If password is incorrect
-            if not check_password_hash(row[0].hashword, password):
+            if not check_password_hash(user.hashword, password):
                 flash("Invalid password.")
                 return redirect("/login")
             else:
-                session["user_id"] = row[0].id
+                login_user(user)
                 return redirect("/")
 
         # Else check if entered data matched an email in DB
-        row = Users.query.filter_by(email=user).all()
-        if len(row) == 1:
+        user = Users.query.filter_by(email=user).first()
+        if user:
             # If password is incorrect
-            if not check_password_hash(row[0].hashword, password):
+            if not check_password_hash(user.hashword, password):
                 flash("Invalid password.")
                 return redirect("/login")
             else:
-                session["user_id"] = row[0].id
+                login_required(user)
                 return redirect("/")
 
         # If entered data matches neither a username or an email in DB
@@ -142,9 +147,8 @@ def login():
 @app.route("/logout")
 def logout():
     # Clear session
-    session.clear()
-
-    return redirect("/")
+    logout_user()
+    return redirect("/login")
 
 @app.route("/search")
 @login_required
@@ -206,8 +210,8 @@ def add():
                 return "Title"
 
         # Check if title in currently in user's catalog
-        if not Catalogs.query.filter_by(userId=session["user_id"], titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
-            new_record = Catalogs(format=request.form.get("format"), userId=session["user_id"], 
+        if not Catalogs.query.filter_by(userId=current_user.id, titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
+            new_record = Catalogs(format=request.form.get("format"), userId=current_user.id, 
             titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id)
 
             try:
@@ -235,7 +239,7 @@ def catalog():
     if request.method == "POST": 
         # Grabs titleId from posted form and userId from session
         title = request.form.get("titleId")
-        user = session["user_id"]
+        user = current_user.id
 
         # Gets desired record from user's catalog
         record = Catalogs.query.filter_by(titleId=title, userId=user).first()
@@ -256,7 +260,7 @@ def catalog():
         catalog = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
                 Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
                 .join(Authors, Publishers, Catalogs).order_by(Titles.title)
-                .filter(Catalogs.userId==session["user_id"])).all()
+                .filter(Catalogs.userId==current_user.id)).all()
         
         return render_template("index.html", catalog=catalog)
 
@@ -268,7 +272,7 @@ def about():
 @login_required
 def account():
     # Retreive user information from DB
-    row = Users.query.get(session["user_id"])
+    row = Users.query.get(current_user.id)
 
     user = {
         "id": row.id,
@@ -282,11 +286,11 @@ def account():
 @app.route("/account/username", methods=["POST"])
 @login_required
 def editUsername():
-    if not check_password_hash(Users.query.get(session["user_id"]).hashword, request.form.get('password')):
+    if not check_password_hash(Users.query.get(current_user.id).hashword, request.form.get('password')):
         flash("Invalid password")
         return redirect("/account")
     else:
-        user = Users.query.get(session["user_id"])
+        user = Users.query.get(current_user.id)
         try:
             user.username = request.form.get("username")
             print(user.username)
@@ -300,11 +304,11 @@ def editUsername():
 @app.route("/account/email", methods=["POST"])
 @login_required
 def editEmail():
-    if not check_password_hash(Users.query.get(session["user_id"]).hashword, request.form.get('password')):
+    if not check_password_hash(Users.query.get(current_user.id).hashword, request.form.get('password')):
         flash("Invalid password")
         return redirect("/account")
     else:
-        user = Users.query.get(session["user_id"])
+        user = Users.query.get(current_user.id)
         try:
             user.email = request.form.get("email")
             db.session.commit()
@@ -317,7 +321,7 @@ def editEmail():
 @app.route("/account/password", methods=["POST"])
 @login_required
 def editPassword():
-    if not check_password_hash(Users.query.get(session["user_id"]).hashword, request.form.get('password')):
+    if not check_password_hash(Users.query.get(current_user.id).hashword, request.form.get('password')):
         flash("Invalid password")
         return redirect("/account")
     else:
@@ -342,7 +346,7 @@ def editPassword():
             reqs["length"] = True
 
         if reqs["length"] == True and reqs["digit"] == True and reqs["upperCase"] == True:
-            user = Users.query.get(session["user_id"])
+            user = Users.query.get(current_user.id)
             newHashword = generate_password_hash(newPassword)
 
             try:
@@ -367,7 +371,7 @@ def delete():
     print(enteredUsername)
     print(enteredPassword)
 
-    user = Users.query.get(session["user_id"])
+    user = Users.query.get(current_user.id)
 
     if enteredUsername != user.username:
         flash("Invalid username.")
@@ -376,7 +380,7 @@ def delete():
         flash("Invalid password.")
         return redirect("/account")
     else:
-        catalog = Catalogs.query.filter_by(userId=session["user_id"]).all()
+        catalog = Catalogs.query.filter_by(userId=current_user.id).all()
         for item in catalog:
             try:
                 db.session.delete(item)

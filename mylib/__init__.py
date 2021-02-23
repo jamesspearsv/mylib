@@ -3,27 +3,22 @@
 ## Create app, db, and other instances that will be used
 ## in routes, models, etc first. Then import routes
 
-# Import flask
 from flask import Flask, session
-
-# Import flask-session and needed library
 from flask_session import Session
 from tempfile import mkdtemp
 import secrets
-import os
-
-# Import flask-sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 # Set development mode
-DEV_MODE = False
+DEV_MODE = True
 
 # create flask app
 app = Flask(__name__)
 
 # Generate secret key
 secret = secrets.token_urlsafe(32)
-app.secret_key = secret\
+app.secret_key = secret
 
 # Set Dev mode or Prod mode
 if DEV_MODE == True:
@@ -38,16 +33,18 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-#app.config.update(SESSION_COOKIE_SECURE=True)
+# Configure Flask-Login and login_manager
+login_manager = LoginManager()
+login_manager.login_view = "/login"
+login_manager.init_app(app)
 
-# Configure flask-session for user authenticaton (use filesystem, secure cookie attribute=True)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
+# Secure cookies
 app.config["SESSION_COOKIE_SECURE"] = True
-app.config.from_object(__name__)
-Session(app)
-
 
 # Import app routes after creating app
 from mylib import routes
+from mylib.models import Users
+
+@login_manager.user_loader
+def user_loader(user_id):
+    return Users.query.get(int(user_id))

@@ -19,7 +19,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler">
               <span class="navbar-toggler-icon"></span>
             </button>
-            {% if session.user_id %}
+            {% if current_user.is_authenticated %}
             <!-- Logged in NavBar -->
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <div class="navbar-nav">
