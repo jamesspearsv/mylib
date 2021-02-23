@@ -16,8 +16,8 @@ DEV_MODE = False
 app = Flask(__name__)
 
 # Generate secret key
-secret = secrets.token_urlsafe(32)
-app.secret_key = secret
+#secret = secrets.token_urlsafe(32)
+app.secret_key = os.environ.get('SECRET_KEY')
 
 # Set Dev mode or Prod mode
 if DEV_MODE == True:
