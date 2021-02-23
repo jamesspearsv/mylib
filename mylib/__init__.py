@@ -17,16 +17,18 @@ app = Flask(__name__)
 
 # Generate secret key
 #secret = secrets.token_urlsafe(32)
-app.secret_key = os.environ.get('SECRET_KEY')
+
 
 # Set Dev mode or Prod mode
 if DEV_MODE == True:
     #setup and initialize sqlalcemy database in Dev Mode
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
+    app.secret_key = 'DEV_MODE secret key'
     app.debug = True
 else:
     #setup and initialize sqlalcemy database in Prod Mode
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    app.secret_key = os.environ.get('SECRET_KEY')
     app.debug = True
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -35,6 +37,7 @@ db = SQLAlchemy(app)
 # Configure Flask-Login and login_manager
 login_manager = LoginManager()
 login_manager.login_view = "/login"
+login_manager.login_messege = ""
 login_manager.init_app(app)
 
 # Secure cookies
