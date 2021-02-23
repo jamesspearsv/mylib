@@ -163,6 +163,7 @@ def search():
     return render_template("search.html", query=search_term, results=results)
 
 @app.route("/add", methods=["POST"])
+@login_required
 def add():
     if request.method == "POST":
 
