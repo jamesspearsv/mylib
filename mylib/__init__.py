@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 # Set development mode
-DEV_MODE = None
+DEV_MODE = False
 
 # create flask app
 app = Flask(__name__)
@@ -24,10 +24,10 @@ if DEV_MODE == True:
     #setup and initialize sqlalcemy database in Dev Mode
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///catalogs.db'
     app.debug = True
-if DEV_MODE == False:
+else:
     #setup and initialize sqlalcemy database in Prod Mode
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-    app.debug = False
+    app.debug = True
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
