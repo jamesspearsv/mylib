@@ -108,7 +108,7 @@ def register():
 def login():
     if request.method == "POST":
 
-        # clear session 
+        # clear user session 
         logout_user()
 
         # Grab user input from posted login form
