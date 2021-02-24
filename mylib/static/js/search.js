@@ -21,7 +21,7 @@ async function grabVolumeInfo (volumeID) {
             try {
               document.getElementById('cover').setAttribute('src', volume.volumeInfo.imageLinks.thumbnail)
             } catch {
-              document.getElementById('cover').setAttribute('src', '/static/assests/blank-cover.svg')
+              document.getElementById('cover').setAttribute('src', '/static/assets/blank-cover.svg')
             }
 
             document.getElementById('title').innerHTML = '<b>Title: </b>' + volume.volumeInfo.title;

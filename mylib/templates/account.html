@@ -16,7 +16,7 @@
         <div class="field">
                 <label><b>Username: </b></label>
                 <span>{{ user.username }}</span>
-                <button class="edit-btn" value="username"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
+                <button class="edit-btn" value="username"><img src="/static/assets/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
                 <form action="/account/username" method="post" id="username-form" class="edit-forms forms" hidden>
                     <div class="form-label">
                         <p>Enter your current password to update your username.</p>
@@ -35,7 +35,7 @@
         <div class="field">
             <label><b>Email address: </b></label>
             <span>{{ user.email }}</span>
-            <button class="edit-btn" value="email"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
+            <button class="edit-btn" value="email"><img src="/static/assets/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
             <form action="/account/email" method="post" id="email-form" class="edit-forms forms" hidden>
                 <div class="form-label">
                     <p>Enter your current password to update your email address.</p>
@@ -80,7 +80,7 @@
     <hr>
     <div id="delete-heading">
         <h3>Delete Your Account</h3>
-        <button class="edit-btn" value="delete"><img src="/static/assests/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
+        <button class="edit-btn" value="delete"><img src="/static/assets/pencil-fill.svg" alt="pencil icon that is an link to edit information"></a></button>
     </div>
     <p class="warning-messege"><b>WARNING: This will delete your entire account and any catalogs you have created. Procede with extreme caution.</b></p>
     <form action="/account/delete" method="post" id="delete-form" class="edit-forms" hidden>
