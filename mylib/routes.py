@@ -19,7 +19,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    if request.method == "POST": 
+    if request.method == "POST":
         title = request.form.get("titleId")
         user = current_user.id
 
@@ -73,7 +73,7 @@ def register():
         if email != None:
             flash("Email is unavailable")
             return render_template("register.html", username=new_username, password=new_password, confirmation=new_password)
-        
+
         # Checks that password meets reqs and confirmation matches
         # Password checks are extra security in case users mess with HTML in browser to enable submit button before password reqs are met.
         if new_password != password_confirmation:
@@ -88,9 +88,9 @@ def register():
             return render_template("register.html")
 
         # Create new_user object
-        new_user = Users(username=new_username, 
+        new_user = Users(username=new_username,
         email=new_email, hashword=generate_password_hash(new_password))
-        
+
         # Push to database
         try:
             db.session.add(new_user)
@@ -100,7 +100,7 @@ def register():
 
         return redirect("/login")
 
-    else: 
+    else:
         return render_template("register.html")
 
 
@@ -108,7 +108,7 @@ def register():
 def login():
     if request.method == "POST":
 
-        # clear user session 
+        # clear user session
         logout_user()
 
         # Grab user input from posted login form
@@ -153,7 +153,7 @@ def logout():
 @app.route("/search")
 @login_required
 def search():
-    
+
     # Gets input from search box and return serch.html with user search term
     search_term = request.args.get("search")
     if search_term == None or search_term == "":
@@ -211,7 +211,7 @@ def add():
 
         # Check if title in currently in user's catalog
         if not Catalogs.query.filter_by(userId=current_user.id, titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id).first():
-            new_record = Catalogs(format=request.form.get("format"), userId=current_user.id, 
+            new_record = Catalogs(format=request.form.get("format"), userId=current_user.id,
             titleId=Titles.query.filter_by(title=catalogRecord["title"]).first().id)
 
             try:
@@ -221,11 +221,11 @@ def add():
                 return redirect("/")
             except:
                 return "Catalog"
-        
-        else: 
+
+        else:
             flash("Looks like that one's already in your catalog.")
             return redirect("/")
-    
+
     else:
         volumeID = request.args.get("volumeID")
 
@@ -256,10 +256,12 @@ def account():
 @app.route("/account/username", methods=["POST"])
 @login_required
 def editUsername():
+    # If password is incorrect
     if not check_password_hash(Users.query.get(current_user.id).hashword, request.form.get('password')):
         flash("Invalid password")
         return redirect("/account")
     else:
+        # get user info and update
         user = Users.query.get(current_user.id)
         try:
             user.username = request.form.get("username")
@@ -274,10 +276,12 @@ def editUsername():
 @app.route("/account/email", methods=["POST"])
 @login_required
 def editEmail():
+    # If password is incorrect
     if not check_password_hash(Users.query.get(current_user.id).hashword, request.form.get('password')):
         flash("Invalid password")
         return redirect("/account")
     else:
+        # Get user info and update
         user = Users.query.get(current_user.id)
         try:
             user.email = request.form.get("email")
@@ -295,10 +299,7 @@ def editPassword():
         flash("Invalid password")
         return redirect("/account")
     else:
-        # TODO Perform password requirement check on new password
-        #At least 6 characters long
-        # At least 1 digit [0-9]
-        # At least 1 upper-case letter [A-Z]
+        # Get entered data and check against password requirements
         newPassword = request.form.get("newPassword")
 
         reqs = {
@@ -315,9 +316,11 @@ def editPassword():
         if len(newPassword) >= 6:
             reqs["length"] = True
 
+        # If password meets requirements, update database
         if reqs["length"] == True and reqs["digit"] == True and reqs["upperCase"] == True:
             user = Users.query.get(current_user.id)
             newHashword = generate_password_hash(newPassword)
+
 
             try:
                 user.hashword = newHashword
@@ -338,18 +341,19 @@ def delete():
     enteredUsername = request.form.get("username")
     enteredPassword = request.form.get("password")
 
-    print(enteredUsername)
-    print(enteredPassword)
-
+    # Get user's info from database
     user = Users.query.get(current_user.id)
 
+    # if entered username is incorrect
     if enteredUsername != user.username:
         flash("Invalid username.")
         return redirect("/account")
+    # if entered password is incorrect
     elif not check_password_hash(user.hashword, enteredPassword):
         flash("Invalid password.")
         return redirect("/account")
     else:
+        # Grab all user's catalog records to delete
         catalog = Catalogs.query.filter_by(userId=current_user.id).all()
         for item in catalog:
             try:
@@ -358,6 +362,7 @@ def delete():
             except:
                 pass
 
+        # Delete user
         try:
             db.session.delete(user)
             db.session.commit()
@@ -366,7 +371,7 @@ def delete():
 
         return redirect("/logout")
 
-# Error handelers
+# Error handelers for 404 not found and 500 internal server error
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
@@ -374,4 +379,3 @@ def page_not_found(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template("500.html"), 500
-

@@ -1,7 +1,4 @@
-## File the initializes FLask App
-## Watch for circular imports from rest of module
-## Create app, db, and other instances that will be used
-## in routes, models, etc first. Then import routes
+## This file the initializes FLask App
 
 from flask import Flask
 import secrets
@@ -14,10 +11,6 @@ DEV_MODE = False
 
 # create flask app
 app = Flask(__name__)
-
-# Generate secret key
-#secret = secrets.token_urlsafe(32)
-
 
 # Set Dev mode or Prod mode
 if DEV_MODE == True:
@@ -39,10 +32,6 @@ login_manager = LoginManager()
 login_manager.login_view = "/login"
 login_manager.login_messege = ""
 login_manager.init_app(app)
-
-# Secure cookies
- # app.config["SESSION_COOKIE_SECURE"] = True
-# app.config["REMEMBER_COOKIE_REFRESH_EACH_REQUEST"] = True
 
 # Import app routes after creating app
 from mylib import routes
