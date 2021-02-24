@@ -1,7 +1,8 @@
 # MyLib: A home library cataloging web app
 #### Video Demo: <url here>
 #### App URL: (https://mylibrarycatalog.herokuapp.com)
-#### Description: MyLib is a home library cataloging web app that can be used to find information about books and create a catalog of books in your home library collection. The app was created using HTML, CSS, and JavaScript for the front end. The back end was created using the Flask framework in Python. Data is stored and retrieved via a PostgreSQL database using FlaskSQLAlchemy.
+
+MyLib is a home library cataloging web app that can be used to find information about books and create a catalog of books in your home library collection. The app was created using HTML, CSS, and JavaScript for the front end. The back end was created using the Flask framework in Python. Data is stored and retrieved via a PostgreSQL database using FlaskSQLAlchemy.
 
 # App structure
 The app is structured as a python package and has been structures to help separate different app functions into different files for convenience and ease of use.
