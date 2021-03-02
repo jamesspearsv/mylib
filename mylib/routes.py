@@ -23,7 +23,7 @@ def index():
         title = request.form.get("titleId")
         user = current_user.id
 
-        record = Catalogs.query.filter_by(titleId=title, userId=user).first()
+        record = Catalogs.query.filter_by(titleId=title, userId=user).all()
 
         try:
             db.session.delete(record)
@@ -370,6 +370,19 @@ def delete():
             return "Error: Deleting account"
 
         return redirect("/logout")
+
+@app.route("/details")
+@login_required
+def edtails():
+    bookId = request.args.get("id")
+    
+    # Retreives catalog info from database
+    record = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
+    Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
+    .join(Authors, Publishers, Catalogs)
+    .filter(Titles.id == bookId, Catalogs.userId==current_user.id)).first()
+
+    return record.format
 
 # Error handelers for 404 not found and 500 internal server error
 @app.errorhandler(404)

@@ -1,5 +1,7 @@
 #catalogTable {
     margin-top: 2%;
+    margin: auto;
+    width: 65%;
 }
 
 #catalog-messege {
@@ -14,5 +16,12 @@
 
 .catalogCover {
     width: auto;
-    height: 15vh;
+    max-height: 10vh;
 }
+
+/* Mobile screens */
+@media (max-width: 767px) {
+    #catalogTable {
+        overflow-x: hidden;
+    }
+  }

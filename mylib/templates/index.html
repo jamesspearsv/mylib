@@ -21,25 +21,15 @@
             <tr>
                 <th></th>
                 <th>Title</th>
-                <th>Subtitle</th>
                 <th>Primary Author</th>
-                <th>Publisher</th>
-                <th>Date</th>
-                <th>ISBN</th>
-                <th>Pages</th>
                 <th>Format</th>
                 <th></th>
             </tr>
             {% for record in catalog %}
             <tr>
                 <td><img src="{{ record.cover }}" alt="Book Cover" class="catalogCover"></td>
-                <td>{{ record.title }}</td>
-                <td>{{ record.subtitle }}</td>
+                <td><a href="/details?id={{ record.id }}">{{ record.title }}</a></td>
                 <td>{{ record.authorName }}</td>
-                <td>{{ record.publisherName }}</td>
-                <td>{{ record.publicationDate }}</td>
-                <td>{{ record.ISBN }}</td>
-                <td>{{ record.pagination }} pp.</td>
                 <td>{{ record.format }}</td>
                 <td>
                     <form action="/" method="post">
