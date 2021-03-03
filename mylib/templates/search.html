@@ -17,6 +17,7 @@
     </div>
       <div class="search">
           <div class="search-results">
+            <h3>Search Results:</h3>
             {% for volume in results %}
             <table class="">
                 <tr data-record-id="{{ volume.volumeId }}">
@@ -31,16 +32,15 @@
                   <td class="quickInfo">
                     <p class="title">{{ volume.title }}</p>
                     {% if volume.authors == None %} 
-                      <p class="authors">{{ volume.authors }}</p>
+                      <p class="authors">by {{ volume.authors }}</p>
                     {% else %}
-                      <p class="authors">{{  ", ".join(volume.authors) }}</p>
+                      <p class="authors">by {{  ", ".join(volume.authors) }}</p>
                     {% endif %}
                   </td>
                 </tr>
             </table>
             {% endfor %}
           </div>
-
           <div class="detailed-view">
             <div id="tip">
               <p id="tip-message"><b>TIP: </b>Click on a book to see more about it here</p>

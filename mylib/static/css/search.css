@@ -136,11 +136,13 @@ form select {
   .search-results {
     min-width: 98%;
     margin-right: 2%;
+    overflow-y: visible;
+    height: auto;
   }
 
   .detailed-view {
     width: auto;
-    max-height: 34vh;
+    max-height: 50vh;
     margin-right: 2%;
   }
 
@@ -150,5 +152,14 @@ form select {
 
   #tip-message {
     margin-bottom: 3%;
+  }
+
+  .blank-cover {
+    max-width: 128px;
+    min-height: 115px;
+  } 
+
+  .blank-cover p {
+    margin-left: 10%;
   }
 }
