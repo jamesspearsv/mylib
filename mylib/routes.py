@@ -23,7 +23,7 @@ def index():
         title = request.form.get("titleId")
         user = current_user.id
 
-        record = Catalogs.query.filter_by(titleId=title, userId=user).all()
+        record = Catalogs.query.filter_by(titleId=title, userId=user).first()
 
         try:
             db.session.delete(record)
@@ -32,6 +32,7 @@ def index():
             # Internal error. Abort and throw 500 error
             return "Error: Delete"
 
+        flash("Successfully deleted record from your catalog!")
         return redirect("/")
     else:
 
@@ -371,10 +372,11 @@ def delete():
 
         return redirect("/logout")
 
+
 @app.route("/details")
 @login_required
 def edtails():
-    bookId = request.args.get("id")
+    bookId = request.args.get("q")
     
     # Retreives catalog info from database
     record = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
@@ -382,7 +384,8 @@ def edtails():
     .join(Authors, Publishers, Catalogs)
     .filter(Titles.id == bookId, Catalogs.userId==current_user.id)).first()
 
-    return record.format
+    return render_template("details.html", record=record)
+
 
 # Error handelers for 404 not found and 500 internal server error
 @app.errorhandler(404)

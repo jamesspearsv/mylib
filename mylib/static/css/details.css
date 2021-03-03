@@ -1,0 +1,18 @@
+main {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1%;
+}
+
+#record-pane {
+    display: grid;
+}
+
+#record-pane {
+    display: flex;
+    flex-direction: row;
+}
+
+#details {
+    margin-left: 2%;
+}

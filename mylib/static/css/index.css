@@ -1,7 +1,7 @@
 #catalogTable {
     margin-top: 2%;
     margin: auto;
-    width: 65%;
+    width: 75%;
 }
 
 #catalog-messege {
@@ -14,9 +14,22 @@
     margin-top: 1%;
 }
 
+#tip-message {
+    text-align: center;
+}
+
 .catalogCover {
     width: auto;
-    max-height: 10vh;
+    max-height: 12vh;
+}
+
+#title {
+    text-decoration: none;
+    color: black;
+}
+
+#title:hover {
+    text-decoration: underline;
 }
 
 /* Mobile screens */

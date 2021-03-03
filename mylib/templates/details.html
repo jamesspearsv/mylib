@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Details
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/details.css">
+{% endblock %}
+
+{% block main %}
+    <div id="record-pane">
+        <div id="coverImg">
+            <img src="{{ record.cover }}" alt="{{ record.title }} cover image">
+        </div>
+        <div id="details">
+            <div id="title">
+                {%  if record.subtitle  %}
+                <p>{{ record.title }}: {{ record.subtitle }}</p>
+                {% else %}
+                <p>{{ record.title }}</p>
+                {% endif %}
+            </div>
+            <div id="author">
+                <p>by {{ record.authorName }}</p>
+            </div>
+            <div id="publisher">
+                <p>{{ record.publisherName }}</p>
+            </div>
+            <div id="publishedDate">
+                <p>{{ record.publicationDate }}</p>
+            </div>
+            <div id="pages">
+                <p>{{ record.pagination }} pp.</p>
+            </div>
+            <div id="ISBN">
+                <p>{{ record.ISBN }}</p>
+            </div>
+        </div>
+    </div>
+    <div id="action-pane">
+        <form action="/" method="post">
+            <input type="hidden" name="titleId" value="{{ record.id }}">
+            <button type="submit" class="btn btn-dark">Remove</button>
+        </form>
+    </div>
+{% endblock %}
