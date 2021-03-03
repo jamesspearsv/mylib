@@ -136,7 +136,7 @@ form select {
   .search-results {
     min-width: 98%;
     margin-right: 2%;
-    overflow-y: visible;
+    overflow-y: none;
     height: auto;
   }
 
