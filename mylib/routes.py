@@ -32,6 +32,7 @@ def index():
             # Internal error. Abort and throw 500 error
             return "Error: Delete"
 
+        flash("Successfully deleted record from your catalog!")
         return redirect("/")
     else:
 
@@ -370,6 +371,23 @@ def delete():
             return "Error: Deleting account"
 
         return redirect("/logout")
+
+
+@app.route("/details")
+@login_required
+def edtails():
+    bookId = request.args.get("q")
+    
+    # Retreives catalog info from database
+    record = (db.session.query(Titles.title, Titles.subtitle, Titles.ISBN, Titles.publicationDate, Titles.cover,
+    Titles.pagination, Titles.googleBooksId, Authors.authorName, Publishers.publisherName, Catalogs.format, Titles.id)
+    .join(Authors, Publishers, Catalogs)
+    .filter(Titles.id == bookId, Catalogs.userId==current_user.id)).first()
+
+    #volumeInfo = googleBooksRetreive(record.googleBooksId)
+
+    return render_template("details.html", record=record)
+
 
 # Error handelers for 404 not found and 500 internal server error
 @app.errorhandler(404)

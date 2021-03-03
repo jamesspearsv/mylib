@@ -60,7 +60,8 @@ def googleBooksRetreive(volumeID):
         "publisher": None,
         "publishedDate": None,
         "ISBN": None,
-        "pageCount": None
+        "pageCount": None,
+        "description": None
     }
 
     # Checks for keys in response data
@@ -80,6 +81,8 @@ def googleBooksRetreive(volumeID):
         volume.update({"ISBN": response["volumeInfo"]["industryIdentifiers"][0]["identifier"]})
     if "pageCount" in response["volumeInfo"]:
         volume.update({"pageCount": response["volumeInfo"]["pageCount"]})
+    if "description" in response["volumeInfo"]:
+        volume.update({"description": response["volumeInfo"]["description"]})
 
     # Return volume info
     return volume

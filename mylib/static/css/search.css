@@ -126,3 +126,29 @@ form select {
   margin: 0;
   text-align: center;
 }
+
+/* Mobile screens */
+@media (max-width: 767px) {
+  .search {
+    flex-direction: column-reverse;
+  }
+
+  .search-results {
+    min-width: 98%;
+    margin-right: 2%;
+  }
+
+  .detailed-view {
+    width: auto;
+    max-height: 34vh;
+    margin-right: 2%;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  #tip-message {
+    margin-bottom: 3%;
+  }
+}

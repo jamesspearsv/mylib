@@ -42,3 +42,20 @@
     text-decoration: underline;
     /*font-weight: bold;*/
 }
+
+/* Mobile screens */
+@media (max-width: 767px) {
+    #wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #about-content {
+        width: 100%;
+    }
+
+    #link-tree {
+        width: 100%;
+        border-radius: 0%;
+    }
+  }

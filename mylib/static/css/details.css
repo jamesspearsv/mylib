@@ -1,0 +1,39 @@
+#record-pane {
+    display: grid;
+}
+
+#record-pane {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+#details {
+    margin-left: 3%;
+}
+
+.detail-label {
+    font-weight: bold;
+}
+
+.action-btn {
+    width: 100%;
+    margin-top: 2%;
+}
+
+/* Mobile screens */
+@media (max-width: 767px) {
+    #record-pane {
+        width: auto;
+        margin-bottom: 3%;
+        margin-top: 3%;
+    }
+
+    #coverImg {
+        width: auto;
+        max-height: 2%;
+    }
+  }

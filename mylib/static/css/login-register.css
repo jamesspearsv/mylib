@@ -9,16 +9,16 @@
     background-color: #dddddd;
     text-align: center;
   }
-  
+
   .forms input {
     margin-top: 2%;
   }
-  
+
   .forms h3 {
     text-align: center;
     margin-bottom: 5%;
   }
-  
+
   #form-btn {
     width: 100%;
   }
@@ -27,7 +27,7 @@
     margin-top: 4%;
     margin-bottom: 0;
   }
-    
+
   .copyright {
     text-align: center;
     margin-top: 2%;
@@ -52,9 +52,9 @@
     color:#F24336;
 }
 
-/* Mobile screens */ 
-@media (max-width: 1024px) {
-    .forms {
-      width: 50%
-    }
+/* Mobile screens */
+@media (max-width: 767px) {
+  .forms {
+    width: 80%;
   }
+}
