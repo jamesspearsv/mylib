@@ -47,3 +47,20 @@
 #delete-heading button {
     margin-left: 1%;
 }
+
+/* Mobile screens */
+@media (max-width: 767px) {
+    .edit-forms {
+        width: auto;
+    }
+
+    #password-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .password-reqs {
+        margin-left: 0;
+        margin-top: 1%;
+    }
+  }

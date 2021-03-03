@@ -18,6 +18,11 @@
     text-align: center;
 }
 
+#table-wrapper {
+    max-width: 100vw;
+    overflow-x: scroll;
+}
+
 .catalogCover {
     width: auto;
     max-height: 12vh;

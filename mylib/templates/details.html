@@ -14,34 +14,43 @@
             <img src="{{ record.cover }}" alt="{{ record.title }} cover image">
         </div>
         <div id="details">
-            <div id="title">
-                {%  if record.subtitle  %}
-                <p>{{ record.title }}: {{ record.subtitle }}</p>
-                {% else %}
-                <p>{{ record.title }}</p>
-                {% endif %}
+            <div id="header-info">
+                <div id="title">
+                    {%  if record.subtitle  %}
+                    <h2>{{ record.title }}: {{ record.subtitle }}</h2>
+                    {% else %}
+                    <h2>{{ record.title }}</h2>
+                    {% endif %}
+                </div>
+                <div id="author">
+                    <p>by {{ record.authorName }}</p>
+                </div>
             </div>
-            <div id="author">
-                <p>by {{ record.authorName }}</p>
-            </div>
+            <hr>
             <div id="publisher">
+                <p class="detail-label">Publisher</p>
                 <p>{{ record.publisherName }}</p>
             </div>
             <div id="publishedDate">
+                <p class="detail-label">Publication Date</p>
                 <p>{{ record.publicationDate }}</p>
             </div>
             <div id="pages">
+                <p class="detail-label">Pages</p>
                 <p>{{ record.pagination }} pp.</p>
             </div>
             <div id="ISBN">
+                <p class="detail-label">ISBN</p>
                 <p>{{ record.ISBN }}</p>
             </div>
+            <hr>
+            <div id="action-pane">
+                    <a href="https://www.google.com/books/edition/_/{{ record.googleBooksId }}?hl=en"><button class="btn btn-dark action-btn">View In Google Books</button></a>
+                <form action="/" method="post">
+                    <input type="hidden" name="titleId" value="{{ record.id }}">
+                    <button type="submit" class="btn btn-danger action-btn">Remove From Your Catalog</button>
+                </form>
+            </div>
         </div>
-    </div>
-    <div id="action-pane">
-        <form action="/" method="post">
-            <input type="hidden" name="titleId" value="{{ record.id }}">
-            <button type="submit" class="btn btn-dark">Remove</button>
-        </form>
     </div>
 {% endblock %}

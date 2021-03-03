@@ -384,6 +384,8 @@ def edtails():
     .join(Authors, Publishers, Catalogs)
     .filter(Titles.id == bookId, Catalogs.userId==current_user.id)).first()
 
+    #volumeInfo = googleBooksRetreive(record.googleBooksId)
+
     return render_template("details.html", record=record)
 
 

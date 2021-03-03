@@ -20,28 +20,23 @@
         <div id="tip-message">
             <p><b>TIP: </b>Click a book title to see more info</p>
         </div>
-        <table class="table table-striped" id="catalogTable">
-            <tr>
-                <th></th>
-                <th>Title</th>
-                <th>Primary Author</th>
-                <th>Format</th>
-                <th></th>
-            </tr>
-            {% for record in catalog %}
-            <tr>
-                <td><img src="{{ record.cover }}" alt="Book Cover" class="catalogCover"></td>
-                <td><a href="/details?q={{ record.id }}" id="title">{{ record.title }}</a></td>
-                <td>{{ record.authorName }}</td>
-                <td>{{ record.format }}</td>
-                <td>
-                    <form action="/" method="post">
-                        <input type="hidden" name="titleId" value="{{ record.id }}">
-                        <button type="submit" class="btn btn-dark">Remove</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-    {% endif %}
+        <div id="table-wrapper">
+            <table class="table table-striped" id="catalogTable">
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Primary Author</th>
+                    <th>Format</th>
+                </tr>
+                {% for record in catalog %}
+                <tr>
+                    <td><img src="{{ record.cover }}" alt="Book Cover" class="catalogCover"></td>
+                    <td><a href="/details?q={{ record.id }}" id="title">{{ record.title }}</a></td>
+                    <td>{{ record.authorName }}</td>
+                    <td>{{ record.format }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+        {% endif %}
     </table>
 {% endblock %}
