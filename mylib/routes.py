@@ -157,11 +157,26 @@ def search():
 
     # Gets input from search box and return serch.html with user search term
     search_term = request.args.get("search")
+    page_number = request.args.get("page_number")
+
     if search_term == None or search_term == "":
         flash("Please enter a search term")
         return redirect("/")
-    results = googleBooksSearch(search_term)
-    return render_template("search.html", query=search_term, results=results)
+    results = googleBooksSearch(search_term, page_number)
+    return render_template("search.html", query=search_term, results=results, page_number=page_number)
+
+@app.route("/volume")
+@login_required
+def volume():
+    if request.method == "POST":
+        return "TODO"
+
+    else:
+        
+        volumeId = request.args.get("volumeId")
+        volumeInfo = googleBooksRetreive(volumeId)
+        
+        return render_template("volume.html", volumeInfo=volumeInfo)
 
 @app.route("/add", methods=["POST"])
 @login_required

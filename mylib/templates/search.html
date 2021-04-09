@@ -9,17 +9,23 @@
 {% endblock %}
 
 {% block main %}
-    <div class="search-box">
-      <form class="navbar-search d-flex" id="search-box-2"action="/search" method="get">
-        <input type="search" class="form-control" name="search" placeholder="Search For A Title" value="{{ query }}" autocomplete="off">
-        <button class="btn btn-dark">Search</button>
-      </form>
+<!--
+
+  <div class="search-box">
+    <form class="navbar-search d-flex" id="search-box-2"action="/search" method="get">
+      <input type="search" class="form-control" name="search" placeholder="Search For A Title" value="{{ query }}" autocomplete="off">
+      <input type="hidden" name="page_number" value="0">
+      <button class="btn btn-dark">Search</button>
+    </form>
+-->
     </div>
       <div class="search">
           <div class="search-results">
             <h3>Search Results:</h3>
-            {% for volume in results %}
+            <p>Page {{ page_number }}</p>
+            <hr>
             <table class="">
+            {% for volume in results %}
                 <tr data-record-id="{{ volume.volumeId }}">
                   <td class="coverImg">
                     {%  if volume.cover != None %}
@@ -30,7 +36,7 @@
                         </div>
                     {% endif %}
                   <td class="quickInfo">
-                    <p class="title">{{ volume.title }}</p>
+                    <p class="title"><a href="/volume?volumeId={{ volume.volumeId }}">{{ volume.title }}</a></p>
                     {% if volume.authors == None %} 
                       <p class="authors">by {{ volume.authors }}</p>
                     {% else %}
@@ -38,54 +44,36 @@
                     {% endif %}
                   </td>
                 </tr>
+                {% endfor %}
             </table>
-            {% endfor %}
           </div>
-          <div class="detailed-view">
-            <div id="tip">
-              <p id="tip-message"><b>TIP: </b>Click on a book to see more about it here</p>
-            </div>
-            <div class="record-cover">
-              <img id="cover" src="" alt="">
-            </div>
-            <div class="record-details">
-                <p id='title'></p>
-                <p id="subtitle"></p>
-                <p id='authors'></p>
-                <p id='publisher'></p>
-                <p id='publicationDate'></p>
-                <p id='ISBN'></p>
-            </div>
 
-              <div class="record-descripton">
-                <p style="display: none;" id="description-label">Description:</p>
-                <p><i id="description"></i></p>
-              </div>
-
-            <div class="form-container">
-              <form action="/add" method="post" id="add-btn" class="add-btn" style="display: none;">
-                <div class="form-group">
-                  <input id="add-to-catalog" type="hidden" name="volumeId" value="">
-                </div>
-                <div class="form-group selection">
-                  <select name="format" id="format">
-                      <option value="hardback" selected>Hardback</option>
-                      <option value="paperback">Paperback</option>
-                      <option value="ebook">E-Book</option>
-                      <option value="audiobook">Audiobook</option>
-                      <option value="graphic novel">Graphic Novel</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <input type="submit" value="Add To Your Catalog" class="btn btn-dark" id="add-btn"">
-                </div>
-              </form>
-            </div>
-          </div>
+        <div id="pagination_clicker">
+          <ul>
+            <li>
+              <a href="/search?search={{ query }}&page_number=1">
+                <div class="page_indicator">1</div>
+              </a> 
+            </li>
+            <li>
+              <a href="/search?search={{ query }}&page_number=2">
+                <div class="page_indicator">2</div>
+              </a> 
+            </li>
+            <li>
+              <a href="/search?search={{ query }}&page_number=3">
+                <div class="page_indicator">3</div>
+              </a> 
+              <li>
+                <a href="/search?search={{ query }}&page_number=4">
+                  <div class="page_indicator">4</div>
+                </a> 
+              </li>
+              <li>
+                <a href="/search?search={{ query }}&page_number=5">
+                  <div class="page_indicator">5</div>
+                </a> 
+              </li>
+          </ul>
         </div>
-        <div class="information-notice">
-          <p>Information provided through the Google Books API.</p>
-          <p>Check it out <a href="https://developers.google.com/books/" target="_blank" rel="noopener noreferrer">here</a>.</p>
-        </div>
-    <script src="/static/js/search.js"></script>
 {% endblock %}

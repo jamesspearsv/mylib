@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Volume
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/volume.css">
+{% endblock %}
+
+{% block main %}
+    <div id="content">
+        <div id="cover">
+            <img src="{{ volumeInfo.large_cover }}" alt="book cover">
+        </div>
+        <div id="volume_info">
+            <div id="title">
+                <b>
+                    {% if volumeInfo.subtitle %}
+                    <p>{{ volumeInfo.title }} : {{ volumeInfo.subtitle }}</p>
+                    {% else %}
+                    <p>{{ volumeInfo.title }}</p>
+                    {% endif %}
+                </b>
+            </div>
+            <div id="authors">
+                {% if volumeInfo.authors == None %} 
+                <p class="authors">by {{ volumeInfo.authors }}</p>
+                {% else %}
+                <p class="authors">{{  ", ".join(volumeInfo.authors) }}</p>
+                {% endif %}
+            </div>
+            <div id="publisher">
+                <p>{{ volumeInfo.publisher }}</p>
+            </div>
+            <div id="publishedDate">
+                <p>{{ volumeInfo.publishedDate }}</p>
+            </div>
+            <div id="pageCount">
+                <p>{{ volumeInfo.pageCount }} pages</p>
+            </div>
+            <div id="isbn">
+                <p>ISBN: {{ volumeInfo.ISBN }}</p>
+            </div>
+        </div>
+        <form action="/add" method="post" id="add_form" class="add-btn">
+            <div class="form-group">
+              <input id="add-to-catalog" type="hidden" name="volumeId" value="{{ volumeInfo.googleBooksId }}">
+            </div>
+            <div class="form-group selection">
+              <select name="format" id="format">
+                  <option value="hardback" selected>Hardback</option>
+                  <option value="paperback">Paperback</option>
+                  <option value="ebook">E-Book</option>
+                  <option value="audiobook">Audiobook</option>
+                  <option value="graphic novel">Graphic Novel</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Add To Your Catalog" class="btn btn-dark" id="add-btn"">
+            </div>
+          </form>
+          <div id="description">
+            {{ volumeInfo.description | safe }}
+        </div>
+    </div>
+        {% endblock %}

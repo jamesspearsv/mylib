@@ -1,0 +1,44 @@
+#content {
+    padding: 3% 0 3% 0;
+    width: 65%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 15vw auto;
+    grid-template-rows: auto auto auto;
+
+}
+
+#cover {
+    grid-column: 1/2;
+}
+
+#volume_info {
+    grid-column: 2/3;
+    grid-row: 1/3;
+}
+
+#add_form {
+    grid-column: 1/2;
+    grid-row: 2/3;
+
+    margin-top: 3%;
+}
+
+#description {
+    grid-column: 1/3;
+    grid-row-start: 3/4;
+
+    background-color: #dddddd;
+    margin-top: 1%;
+    padding: 4%;
+    border-radius: 25px;
+}
+
+#cover img {
+    width: 128;
+    height: 192;
+}
+
+#add_form #format, #add-btn {
+    margin-bottom: 3%;
+}

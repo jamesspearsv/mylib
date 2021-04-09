@@ -10,13 +10,15 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def googleBooksSearch(input):
+def googleBooksSearch(input, page_number):
     # parse input into searchale string
     temp = input.split()
     query = "+".join(temp)
 
+    startIndex = (int(page_number) - 1) * 10
+
     # Search books by title
-    response = get(f"https://www.googleapis.com/books/v1/volumes?q={query}&printType=books")
+    response = get(f"https://www.googleapis.com/books/v1/volumes?q={query}&printType=books&startIndex={startIndex}")
     response.raise_for_status()
     data = response.json()
 
@@ -56,6 +58,7 @@ def googleBooksRetreive(volumeID):
         "title": None,
         "subtitle": None,
         "cover": None,
+        "large_cover": None,
         "authors": None,
         "publisher": None,
         "publishedDate": None,
@@ -71,6 +74,8 @@ def googleBooksRetreive(volumeID):
         volume.update({"subtitle": response["volumeInfo"]["subtitle"]})
     if "smallThumbnail" in response["volumeInfo"]["imageLinks"]:
         volume.update({"cover": response["volumeInfo"]["imageLinks"]["smallThumbnail"]})
+    if "thumbnail" in response["volumeInfo"]["imageLinks"]:
+        volume.update({"large_cover": response["volumeInfo"]["imageLinks"]["thumbnail"]})
     if "authors" in response["volumeInfo"]:
         volume.update({"authors": response["volumeInfo"]["authors"]})
     if "publisher" in response["volumeInfo"]:

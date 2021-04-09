@@ -28,7 +28,8 @@
                   <a href="/about" class="nav-link">About</a>
                 </div>
                 <form class="navbar-search d-flex" action="/search" method="get">
-                  <input type="search" class="form-control" name="search" placeholder="Search For A Title or Author" autocomplete="off">
+                  <input type="search" class="form-control" name="search" placeholder="Search For A Title or Author" value="{{ query }}" autocomplete="off">
+                  <input type="hidden" name="page_number" value="1">
                   <button class="btn btn-light">Search</button>
                 </form>
               </div>

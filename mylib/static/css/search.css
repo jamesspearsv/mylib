@@ -12,14 +12,10 @@
 /* Search results pane */
 .search {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .search-results {
-  max-width: 49%;
-  min-width: 49%;
-  height: 70vh;
-  overflow-y: scroll;
   margin: 2% 2% 0% 2%;
 }
 
@@ -55,82 +51,46 @@ justify-content: center;
   margin-top: 25%;
 }
   
-/* Detailed view pane */
-.detailed-view {
-  width: 49%;
-  height: 70vh;
-  background-color: #dddddd;
-  border-style: none;
-  border-radius: 1.5%;
-  margin: 2%;
-  padding: 2%;
-  display: grid;
-  grid-template-columns: 30% auto;
-  grid-template-rows: 7% auto auto auto;
-  grid-template-areas:  'tip tip'
-                        'record-cover record-details'
-                        'record-description record-description'
-                        ' add-btn add-btn';
-  gap: 3%;
-  overflow-y: scroll;
+/* Page Clicker */
+#pagination_clicker ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  margin-top: 3%;
 }
 
-.detailed-view * {
-  margin: 1%;
-}
-
-#tip {
-  grid-area: tip;
-} #tip p {
-  font-size: .9rem;
-}
-
-.record-cover {
-  grid-area: record-cover;
-  justify-self: center;
-}
-
-.record-cover img {
-  max-width: 100%;
-  height: auto;
-}
-
-.record-details {
-  grid-area: record-details;
-
-}
-.record-descripton {
-  grid-area: record-description;
-
-}
-
-.form-container {
-  grid-area: add-btn;
-  justify-self: center;
-}
-
-form select {
-  width: 100%;
-  margin-left: 0%;
-  margin-right: 0%;
-}
-
-.add-btn {
-  margin-bottom: 20%;
-}
-
-.information-notice {
-  margin: 1% 0 1% 0;
-}
-.information-notice p {
-  margin: 0;
+.page_indicator {
   text-align: center;
+  background-color: #dddddd;
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 200ms ease-in-out;
 }
+
+ a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.page_indicator:hover {
+  transform: translateY(-3px);
+  text-decoration: underline;
+  color: #000000;
+}
+
+
+
 
 /* Mobile screens */
 @media (max-width: 767px) {
   .search {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
   .search-results {
