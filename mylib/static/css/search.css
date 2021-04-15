@@ -33,12 +33,7 @@ td {
 }
 
 .title {
-  font-size: 2rem;
   font-weight: bold;
-}
-
-.title a {
-  font-size: 1.2rem;
 }
 
 .coverImg {
