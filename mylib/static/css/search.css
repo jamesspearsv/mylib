@@ -32,6 +32,15 @@ td {
   background-color: #dbdada;
 }
 
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.title a {
+  font-size: 1.2rem;
+}
+
 .coverImg {
 max-width: 25%;
 min-width: 25%;
@@ -64,7 +73,7 @@ justify-content: center;
   background-color: #dddddd;
   width: 35px;
   height: 35px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  /* box-shadow: 0 4px 10px rgba(0,0,0,0.2); */
 
   display: flex;
   justify-content: center;
