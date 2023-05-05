@@ -1,3 +1,7 @@
+# This project has been archived.
+
+---
+
 # MyLib: A home library cataloging web app
 #### Video Demo: (https://youtu.be/56qZjKf0n_c)
 #### App URL: (https://mylibrarycatalog.herokuapp.com)
